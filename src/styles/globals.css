@@ -1,0 +1,18 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --toastify-color-light: theme(colors.base-200);
+  --toastify-color-dark: theme(colors.base-content);
+  --toastify-color-info: theme(colors.info);
+  --toastify-color-success: theme(colors.success);
+  --toastify-color-warning: theme(colors.warning);
+  --toastify-color-error: theme(colors.error);
+  --toastify-color-transparent: rgba(255, 255, 255, 0.7);
+
+  --toastify-icon-color-info: theme(colors.info);
+  --toastify-icon-color-warning: theme(colors.warning);
+  --toastify-icon-color-error: theme(colors.error);
+  --toastify-icon-color-success: theme(colors.success);
+}
