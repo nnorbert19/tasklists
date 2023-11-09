@@ -10,12 +10,12 @@ import { getStorage } from 'firebase/storage';
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyA3GcGoMIRa0vXYrSMf97PK9wRbkso2LsM',
-  authDomain: 'teendo-lista.firebaseapp.com',
-  projectId: 'teendo-lista',
-  storageBucket: 'teendo-lista.appspot.com',
-  messagingSenderId: '1083242059845',
-  appId: '1:1083242059845:web:144dba89c6bdc1f13ceb2c',
+  apiKey: process.env.NEXT_PUBLIC_APIKEY,
+  authDomain: process.env.NEXT_PUBLIC_AUTHDOMAIN,
+  projectId: process.env.NEXT_PUBLIC_PROJECTID,
+  storageBucket: process.env.NEXT_PUBLIC_STORAGEBUCKET,
+  messagingSenderId: process.env.NEXT_PUBLIC_MESSAGINGSENDERID,
+  appId: process.env.NEXT_PUBLIC_APPID,
 };
 
 // Initialize Firebase

@@ -19,7 +19,6 @@ function LeftSideBar() {
   useEffect(() => {
     if (user) {
       const unsub = onSnapshot(doc(db, 'users', user?.email), (doc) => {
-        console.log('Current data: ', doc.data()?.scenes);
         setScenes(doc.data()?.scenes);
       });
 
@@ -265,9 +264,9 @@ function LeftSideBar() {
                 !isOpen && 'scale-0'
               } py-2 duration-500 overflow-auto w-32 `}
             >
-              {scenes.length >= 1 &&
+              {scenes?.length >= 1 &&
                 scenes?.map((scene) => (
-                  <li key={scene?.id}>
+                  <li key={scene?.id} className=' truncate max-w-32'>
                     <Link href={`/szinterek/${scene?.id}`}>{scene?.name}</Link>
                   </li>
                 ))}
