@@ -10,7 +10,7 @@ function Logout() {
 
   async function logout() {
     await signOut(auth);
-    const response = await fetch('http://localhost:3010/api/signout', {
+    const response = await fetch('/api/signout', {
       method: 'POST',
     });
     if (response.status === 200) {
