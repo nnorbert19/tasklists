@@ -8,7 +8,6 @@ import {
 import { auth } from '@/lib/firebase';
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { toast } from 'react-toastify';
 
 export default function Google({ setLoading }) {
   const router = useRouter();

@@ -1,7 +1,6 @@
 'use client';
 import Google from '@/components/auth/Google';
 import { auth } from '@/lib/firebase';
-import useAuth from '@/utility/useAuth';
 import { signInWithEmailAndPassword } from 'firebase/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';

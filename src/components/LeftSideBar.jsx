@@ -3,13 +3,13 @@ import { useEffect, useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { usePathname, useRouter } from 'next/navigation';
-import useAuth from '@/utility/useAuth';
 import Avatar from './user/Avatar';
 import Link from 'next/link';
 import { doc, onSnapshot } from 'firebase/firestore';
+import { useAuth } from '@/context/AuthContext';
 
 function LeftSideBar() {
-  const { isLoggedIn, user } = useAuth();
+  const { user } = useAuth();
   const [isOpen, setIsOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const [scenes, setScenes] = useState();
@@ -26,8 +26,6 @@ function LeftSideBar() {
     }
   }, [user]);
 
-  if (pathname == '/regisztracio' || pathname == '/bejelentkezes') return;
-
   async function logout() {
     await signOut(auth);
     const response = await fetch('/api/signout', {
@@ -37,12 +35,13 @@ function LeftSideBar() {
       router.push('/bejelentkezes');
     }
   }
+  if (!user) return;
 
   return (
     <div
-      className={`${isLoggedIn ? '' : 'hidden'} bg-primary h-screen p-5 pt-8 ${
-        isOpen ? 'w-60' : 'w-20'
-      } duration-500 ease-in-out relative `}
+      className={`fixed top-0 left-0 bg-primary h-screen  pt-8 ${
+        isOpen ? 'w-60 p-5 z-50' : 'w-12 p-1 z-50'
+      } duration-500 ease-linear `}
     >
       {/*Nyíl a sidebar nyitásához*/}
       <label className='swap swap-rotate absolute -right-3 top-20 bg-base-100 border-[bg-primary] rounded-full'>
@@ -86,9 +85,9 @@ function LeftSideBar() {
         </div>
 
         <Link
-          href={'/'}
+          href={'/kezdolap'}
           className={`mt-10 ${
-            pathname === '/' ? 'bg-secondary-focus rounded-md' : ''
+            pathname === '/kezdolap' ? 'bg-secondary-focus rounded-md' : ''
           } ${
             isOpen ? 'p-1' : ''
           } w-full flex flex-row items-center gap-x-4 hover:bg-secondary-focus rounded-md `}

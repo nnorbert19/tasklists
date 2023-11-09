@@ -3,6 +3,7 @@ import '@/styles/globals.css';
 import { Suspense } from 'react';
 import Loading from './Loading';
 import ToastContainerWrapper from '@/components/ToastContainer';
+import { Providers } from '@/context/Providers';
 
 export const metadata = {
   title: 'Create Next App',
@@ -10,27 +11,17 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  function LeftSideBarLoading() {
-    return (
-      <div
-        className={` bg-primary h-screen p-5 pt-8 w-60 duration-500 ease-in-out relative `}
-      >
-        <Loading />
-      </div>
-    );
-  }
   return (
     <html className='h-full'>
       <body className='h-full flex'>
-        <Suspense fallback={LeftSideBarLoading()}>
-          <LeftSideBar />
-        </Suspense>
-        <Suspense fallback={<Loading />}>
-          <div className='p-5 h-full w-full flex items-center justify-center bg-base-200'>
-            {children}
-          </div>
-        </Suspense>
-        <ToastContainerWrapper />
+        <Providers>
+          <Suspense fallback={<Loading />}>
+            <div className='h-full w-full flex items-center justify-center bg-base-200'>
+              {children}
+            </div>
+          </Suspense>
+          <ToastContainerWrapper />
+        </Providers>
       </body>
     </html>
   );

@@ -70,21 +70,21 @@ const SearchComponent = (props) => {
   );
 
   return (
-    <div className='form-control w-full px-4 flex flex-row justify-between items-center'>
+    <div className='w-full mb-4 '>
       <div className='relative'>
-        <div className=''>
-          <label className='label'>
-            <span className='label-text'>Felhasználók hozzáadása</span>
+        <div>
+          <label className='label block text-sm font-medium '>
+            Felhasználók hozzáadása
           </label>
           <input
             type='text'
             value={searchTerm}
             onChange={handleSearch}
-            className={`input input-bordered input-primary w-50 max-w-xs`}
+            className={`input input-bordered input-primary mt-1 p-2 w-full border rounded`}
           />
         </div>
         {showPopup && (
-          <div className='absolute top-full left-0 mt-2 p-2 bg-white border rounded shadow-lg z-20 min-w-fit max-w-sm'>
+          <div className='absolute top-full left-0 mt-2 p-2 bg-white border rounded shadow-lg  min-w-fit '>
             <ul className='space-y-2 max-h-28 overflow-x-auto'>
               {filteredUsersToDisplay.map((user) => (
                 <li key={user.email} className='flex items-center'>
@@ -110,11 +110,11 @@ const SearchComponent = (props) => {
           </div>
         )}
       </div>
-      <div>
-        <label className='label'>
-          <span className='label-text'>Kiválasztott felhasználók:</span>
+      <div className='mb-4'>
+        <label className='label text-sm font-medium'>
+          Kiválasztott felhasználók:
         </label>
-        <ul className='space-y-2 max-h-24 overflow-y-auto overflow-hidden'>
+        <ul className='max-h-24 min-h-6 border-primary p-1 overflow-y-auto overflow-hidden border rounded'>
           {selectedUsers.map((user) => (
             <li key={user.email} className='flex justify-between items-center'>
               <div className='flex flex-col'>

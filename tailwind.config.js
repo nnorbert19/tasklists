@@ -5,4 +5,5 @@ module.exports = {
     themes: ['bumblebee'],
   },
   plugins: [require('daisyui')],
+  mode: 'jit',
 };

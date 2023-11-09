@@ -1,12 +1,10 @@
 'use client';
 import { auth } from '@/lib/firebase';
-import useAuth from '@/utility/useAuth';
 import { signOut } from 'firebase/auth';
 import { useRouter } from 'next/navigation';
 
 function Logout() {
   const router = useRouter();
-  const { isLoggedIn, user } = useAuth();
 
   async function logout() {
     await signOut(auth);

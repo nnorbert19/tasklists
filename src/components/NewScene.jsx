@@ -5,13 +5,23 @@ import { useRef, useState } from 'react';
 import SearchComponent from './SearchComponent';
 import { writeBatch, doc, arrayUnion } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { toast } from 'react-toastify';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
+import Loading from '@/app/Loading';
 
-function NewScene({ user }) {
+function NewScene() {
+  const { user } = useAuth();
+  const router = useRouter();
   const nameRef = useRef();
   const [isMod, setIsMod] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
   const [loading, setLoading] = useState();
   const [users, setUsers] = useState();
+
+  if (!user) {
+    return <Loading />;
+  }
 
   async function updateMultipleUsersAndCreateScene(userUpdates, id) {
     try {
@@ -47,10 +57,11 @@ function NewScene({ user }) {
       // Commit the batch write
       await batch.commit();
 
-      console.log('Multiple users updated successfully!');
+      toast.success('Színtér létrehozva');
       setLoading(false);
+      router.push(`/szinterek/${id}`);
     } catch (error) {
-      console.error('Error updating multiple users:', error);
+      toast.error('Hiba történt!');
       setLoading(false);
     }
   }
@@ -63,61 +74,49 @@ function NewScene({ user }) {
   }
 
   return (
-    <div className='card max-w-xl  bg-base-100 shadow-xl sm:w-full'>
-      <h2 className='card-title mt-3 justify-center text-4xl mb-5'>
-        Színtér létrehozása
-      </h2>
-      <div className='card-body gap-10 '>
-        <form onSubmit={submitForm}>
-          <div className='form-control  w-full px-4'>
-            <label className='label'>
-              <span className='label-text'>Színtér neve</span>
-            </label>
+    <div className='max-w-md transition-transform w-full bg-white p-8 rounded-lg shadow-xl space-y-4 mx-auto '>
+      <form onSubmit={submitForm}>
+        <h1 className='text-2xl font-bold mb-4'>Színtér létrehozása</h1>
+        <div className='mb-4'>
+          <label className='block text-sm font-medium '>Színtér neve*</label>
+          <input
+            required
+            type='text'
+            ref={nameRef}
+            className='input input-bordered input-primary mt-1 p-2 w-full border rounded'
+          />
+        </div>
+        <SearchComponent setUsers={setUsers} userEmail={user.email} />
+        <div className='w-full mt-5  '>
+          <label className='flex items-center label justify-start cursor-pointer'>
             <input
-              required
-              type='text'
-              ref={nameRef}
-              className={`input input-bordered input-primary w-50 max-w-xs`}
+              type='checkbox'
+              checked={isMod}
+              onChange={() => setIsMod(!isMod)}
+              className='checkbox checkbox-primary'
             />
-          </div>
-          <SearchComponent setUsers={setUsers} userEmail={user.email} />
-          <div className='form-control w-full mt-5  px-4'>
-            <label className='label justify-start cursor-pointer'>
-              <input
-                type='checkbox'
-                checked={isMod}
-                onChange={() => setIsMod(!isMod)}
-                className='checkbox checkbox-primary'
-              />
-              <span className='label-text pl-5'>
-                Moderátor általi jóváhagyás
-              </span>
-            </label>
-          </div>
-          <div className='form-control w-full px-4'>
-            <label className='label justify-start cursor-pointer'>
-              <input
-                type='checkbox'
-                checked={isCreate}
-                onChange={() => setIsCreate(!isCreate)}
-                className='checkbox checkbox-primary'
-              />
-              <span className='label-text pl-5'>
-                Tagok teendők létrehozására való joga
-              </span>
-            </label>
-          </div>
-          <div className='m-0 mt-5 card-actions justify-center'>
-            <button
-              disabled={loading}
-              type='submit'
-              className='btn btn-primary'
-            >
-              Létrehozás
-            </button>
-          </div>
-        </form>
-      </div>
+            <span className='label-text pl-5'>Moderátor általi jóváhagyás</span>
+          </label>
+        </div>
+        <div className='w-full '>
+          <label className='flex items-center label justify-start cursor-pointer'>
+            <input
+              type='checkbox'
+              checked={isCreate}
+              onChange={() => setIsCreate(!isCreate)}
+              className='checkbox checkbox-primary'
+            />
+            <span className='label-text pl-5'>
+              Tagok teendők létrehozására való joga
+            </span>
+          </label>
+        </div>
+        <div className='m-0 mt-5 card-actions justify-center'>
+          <button disabled={loading} type='submit' className='btn btn-primary'>
+            Létrehozás
+          </button>
+        </div>
+      </form>
     </div>
   );
 }
