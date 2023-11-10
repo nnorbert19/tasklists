@@ -1,5 +1,4 @@
 import LeftSideBar from '@/components/LeftSideBar';
-import '@/styles/globals.css';
 import { Suspense } from 'react';
 import Loading from '../Loading';
 
@@ -19,17 +18,16 @@ export default function LoggedInLayout({ children }) {
     );
   }
   return (
-    <div className='flex'>
-      <Suspense fallback={LeftSideBarLoading()}>
-        <LeftSideBar />
-      </Suspense>
-      <div className='flex-1 p-4'>
-        <Suspense fallback={<Loading />}>
-          <div className='pl-10 h-full w-full flex items-center justify-center bg-base-200'>
-            {children}
-          </div>
-        </Suspense>
-      </div>
+    <div className='flex w-full'>
+      <LeftSideBar>
+        <div className='flex-1 w-full'>
+          <Suspense fallback={<Loading />}>
+            <div className=' xs:pl-0 h-full w-full flex items-center justify-center bg-base-200'>
+              {children}
+            </div>
+          </Suspense>
+        </div>
+      </LeftSideBar>
     </div>
   );
 }

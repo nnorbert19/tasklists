@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-  --toastify-color-light: theme(colors.base-200);
+  --toastify-color-light: theme(colors.base-100);
   --toastify-color-dark: theme(colors.base-content);
   --toastify-color-info: theme(colors.info);
   --toastify-color-success: theme(colors.success);

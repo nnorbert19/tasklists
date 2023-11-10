@@ -14,10 +14,9 @@ function Profile() {
     // Add more profile data as needed
   };
   return (
-    <div className='bg-base-100 flex items-center justify-center '>
-      <div className='bg-base-100 p-8 rounded-lg shadow-md space-y-4 max-w-md w-full'>
+    <div className='bg-base-300 flex items-center justify-center rounded-xl'>
+      <div className='bg-base-100 p-8 shadow-md space-y-4 max-w-md w-full rounded-xl'>
         <div className='md:flex gap-10 justify-between items-center transition-all duration-300 ease-in-out'>
-          {/* Profile Information */}
           <div className='lg:w-1/2 text-center '>
             <Avatar styling={'w-16 h-16 mx-auto'} />
             <h1 className='text-2xl text-center font-bold mb-2'>
@@ -41,7 +40,6 @@ function Profile() {
             <p>Followers: {userProfile.followers}</p>
             <p>Following: {userProfile.following}</p>
             <p>Posts: {userProfile.posts}</p>
-            {/* Add more statistics as needed */}
           </div>
         </div>
       </div>

@@ -34,10 +34,15 @@ function NewScene() {
         }),
       };
 
+      let emails = [];
+
       userUpdates?.forEach(({ email }) => {
+        emails.push(email);
         const userDocRef = doc(db, 'users', email);
         batch.update(userDocRef, data);
       });
+
+      console.log(emails);
 
       const userDocRef = doc(db, 'users', user.email);
       batch.update(userDocRef, data);
@@ -49,6 +54,7 @@ function NewScene() {
         todos: [],
         modApproval: isMod,
         userCanCreate: isCreate,
+        users: [...emails],
       };
 
       const sceneDocRef = doc(db, 'scenes', id);
@@ -62,6 +68,7 @@ function NewScene() {
       router.push(`/szinterek/${id}`);
     } catch (error) {
       toast.error('Hiba történt!');
+      console.log(error);
       setLoading(false);
     }
   }
@@ -74,7 +81,7 @@ function NewScene() {
   }
 
   return (
-    <div className='max-w-md transition-transform w-full bg-white p-8 rounded-lg shadow-xl space-y-4 mx-auto '>
+    <div className='max-w-md w-full bg-white p-8 rounded-lg shadow-xl space-y-4 mx-auto '>
       <form onSubmit={submitForm}>
         <h1 className='text-2xl font-bold mb-4'>Színtér létrehozása</h1>
         <div className='mb-4'>

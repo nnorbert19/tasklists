@@ -13,7 +13,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html className='h-full'>
-      <body className='h-full flex'>
+      <body className='h-full w-full flex'>
         <Providers>
           <Suspense fallback={<Loading />}>
             <div className='h-full w-full flex items-center justify-center bg-base-200'>
