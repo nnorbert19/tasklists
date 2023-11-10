@@ -8,25 +8,14 @@ export const metadata = {
 };
 
 export default function LoggedInLayout({ children }) {
-  function LeftSideBarLoading() {
-    return (
-      <div
-        className={` bg-primary h-screen p-5 pt-8 w-60 duration-500 ease-in-out relative `}
-      >
-        <Loading />
-      </div>
-    );
-  }
   return (
-    <div className='flex w-full'>
+    <div className='flex w-full h-full'>
       <LeftSideBar>
-        <div className='flex-1 w-full'>
-          <Suspense fallback={<Loading />}>
-            <div className=' xs:pl-0 h-full w-full flex items-center justify-center bg-base-200'>
-              {children}
-            </div>
-          </Suspense>
-        </div>
+        <Suspense fallback={<Loading />}>
+          <div className=' xs:pl-0 h-full w-full flex items-center justify-center bg-base-200'>
+            {children}
+          </div>
+        </Suspense>
       </LeftSideBar>
     </div>
   );
