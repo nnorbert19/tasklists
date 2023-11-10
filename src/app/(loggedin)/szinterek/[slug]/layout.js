@@ -10,7 +10,7 @@ export default function sceneLayout({ children }) {
   return (
     <>
       <RightSideBar>
-        <div className='flex w-100'>{children}</div>
+        <div className='px-3'>{children}</div>
       </RightSideBar>
     </>
   );

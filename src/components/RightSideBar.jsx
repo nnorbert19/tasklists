@@ -2,7 +2,7 @@ function RightSideBar({ children }) {
   return (
     <div className='drawer drawer-end lg:drawer-open'>
       <input id='right-sidebar' type='checkbox' className='drawer-toggle' />
-      <div className='drawer-content flex flex-col items-center justify-center'>
+      <div className='h-full drawer-content'>
         {/* Page content here */}
         {children}
         <label
@@ -26,7 +26,7 @@ function RightSideBar({ children }) {
           aria-label='close sidebar'
           className='drawer-overlay'
         ></label>
-        <ul className='menu p-4 w-60 min-h-full bg-primary text-base-content'>
+        <ul className='menu p-4 w-48 min-h-full bg-primary text-base-content'>
           {/* Sidebar content here */}
           <li>
             <a>Sidebar Item 1</a>

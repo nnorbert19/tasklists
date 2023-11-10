@@ -65,9 +65,9 @@ function LeftSideBar({ children }) {
             aria-label='close sidebar'
             className='drawer-overlay'
           ></label>
-          <ul className='menu w-60 min-h-full bg-primary text-base-content'>
+          <ul className='menu w-48 min-h-full bg-primary text-base-content'>
             {/* tartalom */}
-            <div className='h-full flex justify-start items-center flex-col overflow-hidden'>
+            <div className='h-full w-full flex justify-start items-center flex-col overflow-hidden'>
               <div className={`w-24 duration-500 ease-in-out`}>
                 <Link href={'/profil'}>
                   <Avatar photoUrl={user?.photoURL} />
@@ -227,7 +227,9 @@ function LeftSideBar({ children }) {
               </div>
               {submenuOpen && (
                 <>
-                  <ul className={` py-2 duration-500 overflow-auto w-32 `}>
+                  <ul
+                    className={` py-2 duration-500 overflow-auto w-46 max-h-28  `}
+                  >
                     {scenes?.length >= 1 &&
                       scenes?.map((scene) => (
                         <li key={scene?.id} className=' truncate max-w-32'>
@@ -237,7 +239,7 @@ function LeftSideBar({ children }) {
                         </li>
                       ))}
                   </ul>
-                  <button className='btn btn-xs btn-secondary'>
+                  <button className='btn btn-xs btn-neutral'>
                     <Link href={'/szinter-letrehozasa'}>
                       Színtér létrehozása
                     </Link>
