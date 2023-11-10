@@ -232,7 +232,7 @@ function LeftSideBar({ children }) {
                   >
                     {scenes?.length >= 1 &&
                       scenes?.map((scene) => (
-                        <li key={scene?.id} className=' truncate max-w-32'>
+                        <li key={scene?.id} className=' truncate max-w-10'>
                           <Link href={`/szinterek/${scene?.id}`}>
                             {scene?.name}
                           </Link>
