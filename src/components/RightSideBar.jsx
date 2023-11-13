@@ -1,4 +1,10 @@
+'use client';
+import Loading from '@/app/Loading';
+import { useCtx } from '@/context/Context';
+
 function RightSideBar({ children }) {
+  const { scene, sceneLoading } = useCtx();
+
   return (
     <div className='drawer drawer-end lg:drawer-open'>
       <input id='right-sidebar' type='checkbox' className='drawer-toggle' />
@@ -26,14 +32,18 @@ function RightSideBar({ children }) {
           aria-label='close sidebar'
           className='drawer-overlay'
         ></label>
-        <ul className='menu p-4 w-48 min-h-full bg-primary text-base-content'>
+        <ul
+          className={`${
+            sceneLoading && 'flex justify-center align-center'
+          }menu p-4 w-48 min-h-full bg-primary text-base-content`}
+        >
           {/* Sidebar content here */}
-          <li>
-            <a>Sidebar Item 1</a>
-          </li>
-          <li>
-            <a>Sidebar Item 2</a>
-          </li>
+          {sceneLoading && (
+            <div className='mx-auto'>
+              <Loading />
+            </div>
+          )}
+          {!sceneLoading && scene && <li>{scene?.name}</li>}
         </ul>
       </div>
     </div>

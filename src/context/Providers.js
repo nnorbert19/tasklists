@@ -1,7 +1,7 @@
 'use client';
 
-import { AuthProvider } from './AuthContext';
+import { CtxProvider } from './Context';
 
 export function Providers({ children }) {
-  return <AuthProvider>{children}</AuthProvider>;
+  return <CtxProvider>{children}</CtxProvider>;
 }

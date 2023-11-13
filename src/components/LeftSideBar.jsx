@@ -6,10 +6,10 @@ import { usePathname, useRouter } from 'next/navigation';
 import Avatar from './user/Avatar';
 import Link from 'next/link';
 import { doc, onSnapshot } from 'firebase/firestore';
-import { useAuth } from '@/context/AuthContext';
+import { useCtx } from '@/context/Context';
 
 function LeftSideBar({ children }) {
-  const { user } = useAuth();
+  const { user } = useCtx();
   const [isOpen, setIsOpen] = useState(true);
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const [scenes, setScenes] = useState();
@@ -46,7 +46,7 @@ function LeftSideBar({ children }) {
           {children}
           <label
             htmlFor='left-sidebar'
-            className='btn btn-circle absolute top-0 left-0 m-4'
+            className='btn btn-circle fixed top-0 left-0 m-4'
           >
             <svg
               className='swap-off fill-current'
@@ -65,9 +65,9 @@ function LeftSideBar({ children }) {
             aria-label='close sidebar'
             className='drawer-overlay'
           ></label>
-          <ul className='menu w-48 min-h-full bg-primary text-base-content'>
+          <ul className='menu sticky w-48 min-h-full bg-primary text-base-content'>
             {/* tartalom */}
-            <div className='h-full w-full flex justify-start items-center flex-col overflow-hidden'>
+            <div className='h-full  w-full flex justify-start items-center flex-col overflow-hidden'>
               <div className={`w-24 duration-500 ease-in-out`}>
                 <Link href={'/profil'}>
                   <Avatar photoUrl={user?.photoURL} />

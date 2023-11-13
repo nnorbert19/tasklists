@@ -1,26 +1,47 @@
 'use client';
 import { v4 as uuidv4 } from 'uuid';
-
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import SearchComponent from './SearchComponent';
-import { writeBatch, doc, arrayUnion } from 'firebase/firestore';
+import {
+  collection,
+  getDocs,
+  writeBatch,
+  doc,
+  arrayUnion,
+} from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/context/AuthContext';
+import { useCtx } from '@/context/Context';
 import Loading from '@/app/Loading';
 
 function NewScene() {
-  const { user } = useAuth();
+  const { user } = useCtx();
   const router = useRouter();
   const nameRef = useRef();
   const [isMod, setIsMod] = useState(false);
   const [isCreate, setIsCreate] = useState(false);
   const [loading, setLoading] = useState();
   const [users, setUsers] = useState();
+  const [usersToFilter, setUsersToFilter] = useState();
+
+  useEffect(() => {
+    getUsers();
+  }, [user]);
 
   if (!user) {
     return <Loading />;
+  }
+
+  async function getUsers() {
+    const querySnapshot = await getDocs(collection(db, 'users'));
+    let userData = [];
+    querySnapshot.forEach((doc) => {
+      userData.push(doc.data());
+    });
+    setUsersToFilter(userData);
+    /*setFilteredUsers(userData);
+    setUsers(userData);*/
   }
 
   async function updateMultipleUsersAndCreateScene(userUpdates, id) {
@@ -34,15 +55,17 @@ function NewScene() {
         }),
       };
 
-      let emails = [];
+      let userData = [];
+      console.log(userUpdates);
 
-      userUpdates?.forEach(({ email }) => {
-        emails.push(email);
-        const userDocRef = doc(db, 'users', email);
+      userUpdates?.forEach((user) => {
+        userData.push({
+          email: user.email,
+          displayName: user.displayName,
+        });
+        const userDocRef = doc(db, 'users', user.email);
         batch.update(userDocRef, data);
       });
-
-      console.log(emails);
 
       const userDocRef = doc(db, 'users', user.email);
       batch.update(userDocRef, data);
@@ -54,7 +77,10 @@ function NewScene() {
         todos: [],
         modApproval: isMod,
         userCanCreate: isCreate,
-        users: [...emails],
+        users: [...userData],
+        history: [
+          { type: 'created', date: new Date(), user: user.displayName },
+        ],
       };
 
       const sceneDocRef = doc(db, 'scenes', id);
@@ -93,7 +119,7 @@ function NewScene() {
             className='input input-bordered input-primary mt-1 p-2 w-full border rounded'
           />
         </div>
-        <SearchComponent setUsers={setUsers} userEmail={user.email} />
+        <SearchComponent setUsers={setUsers} filterFrom={usersToFilter} />
         <div className='w-full mt-5  '>
           <label className='flex items-center label justify-start cursor-pointer'>
             <input
