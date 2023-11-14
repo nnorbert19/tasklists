@@ -5,6 +5,7 @@ import { useState } from 'react';
 const SearchComponent = (props) => {
   const { user } = useCtx();
   const users = props?.filterFrom;
+
   const [filteredUsers, setFilteredUsers] = useState(props?.filterFrom);
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
@@ -29,27 +30,38 @@ const SearchComponent = (props) => {
   };
 
   const handleToggleUser = (user) => {
-    const updatedSelectedUsers = [...selectedUsers];
-    const isUserSelected = updatedSelectedUsers.some(
-      (selectedUser) => selectedUser.email === user.email
-    );
-
-    if (isUserSelected) {
-      const index = updatedSelectedUsers.findIndex(
+    if (props?.onlyOne) {
+      if (selectedUsers[0]?.email == user?.email) {
+        setSelectedUsers([]);
+        props.setUsers([]);
+      } else {
+        setSelectedUsers([user]);
+        props.setUsers(user);
+      }
+    } else {
+      const updatedSelectedUsers = [...selectedUsers];
+      const isUserSelected = updatedSelectedUsers.some(
         (selectedUser) => selectedUser.email === user.email
       );
-      updatedSelectedUsers.splice(index, 1);
-    } else {
-      updatedSelectedUsers.push(user);
+
+      if (isUserSelected) {
+        const index = updatedSelectedUsers.findIndex(
+          (selectedUser) => selectedUser.email === user.email
+        );
+        updatedSelectedUsers.splice(index, 1);
+      } else {
+        updatedSelectedUsers.push(user);
+      }
+
+      setSelectedUsers(updatedSelectedUsers);
+      props.setUsers(updatedSelectedUsers);
     }
     setSearchTerm('');
     setShowPopup(false);
-    setSelectedUsers(updatedSelectedUsers);
-    props.setUsers(updatedSelectedUsers);
   };
 
   const filteredUsersToDisplay = filteredUsers?.filter(
-    (filteredUser) => filteredUser.email !== user.email
+    (filteredUser) => filteredUser.email !== user?.email
   );
 
   return (
@@ -57,7 +69,9 @@ const SearchComponent = (props) => {
       <div className='relative'>
         <div>
           <label className='label block text-sm font-medium '>
-            Felhasználók hozzáadása
+            {props?.onlyOne
+              ? 'Felhasználó hozzáadása'
+              : 'Felhasználók hozzáadása'}
           </label>
           <input
             type='text'
@@ -95,7 +109,9 @@ const SearchComponent = (props) => {
       </div>
       <div className='mb-4'>
         <label className='label text-sm font-medium'>
-          Kiválasztott felhasználók:
+          {props?.onlyOne
+            ? 'Kiválasztott felhasználó:'
+            : 'Kiválasztott felhasználók:'}
         </label>
         <ul className='max-h-24 min-h-6 border-primary p-1 overflow-y-auto overflow-hidden border rounded'>
           {selectedUsers.map((user) => (

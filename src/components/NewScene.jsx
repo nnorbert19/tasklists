@@ -40,8 +40,6 @@ function NewScene() {
       userData.push(doc.data());
     });
     setUsersToFilter(userData);
-    /*setFilteredUsers(userData);
-    setUsers(userData);*/
   }
 
   async function updateMultipleUsersAndCreateScene(userUpdates, id) {
@@ -56,7 +54,6 @@ function NewScene() {
       };
 
       let userData = [];
-      console.log(userUpdates);
 
       userUpdates?.forEach((user) => {
         userData.push({
@@ -67,6 +64,8 @@ function NewScene() {
         batch.update(userDocRef, data);
       });
 
+      //létrehozó
+      userData.push({ email: user.email, displayName: user.displayName });
       const userDocRef = doc(db, 'users', user.email);
       batch.update(userDocRef, data);
 
@@ -94,7 +93,6 @@ function NewScene() {
       router.push(`/szinterek/${id}`);
     } catch (error) {
       toast.error('Hiba történt!');
-      console.log(error);
       setLoading(false);
     }
   }

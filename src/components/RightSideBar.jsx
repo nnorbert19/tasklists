@@ -3,8 +3,9 @@ import Loading from '@/app/Loading';
 import { useCtx } from '@/context/Context';
 
 function RightSideBar({ children }) {
-  const { scene, sceneLoading } = useCtx();
+  const { currentScene, sceneLoading } = useCtx();
 
+  if (!currentScene) return <>{children};</>;
   return (
     <div className='drawer drawer-end lg:drawer-open'>
       <input id='right-sidebar' type='checkbox' className='drawer-toggle' />
@@ -43,7 +44,7 @@ function RightSideBar({ children }) {
               <Loading />
             </div>
           )}
-          {!sceneLoading && scene && <li>{scene?.name}</li>}
+          {!sceneLoading && currentScene && <li>{currentScene?.name}</li>}
         </ul>
       </div>
     </div>

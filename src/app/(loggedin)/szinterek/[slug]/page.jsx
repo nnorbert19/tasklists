@@ -11,35 +11,29 @@ import Loading from '@/app/Loading';
 import SceneNotFound from '@/components/scenes/SceneNotFound';
 
 function Page() {
-  const { user, getScene, scene, sceneLoading } = useCtx();
+  const { user, setSceneId, currentScene } = useCtx();
   const pathname = usePathname();
   const parts = pathname.split('/');
   const id = parts[parts.length - 1];
   const [loading, setLoading] = useState(true);
 
+  console.log(user);
   useEffect(() => {
-    if (user) {
-      const unsub = onSnapshot(doc(db, 'users', user?.email), (doc) => {
-        const result = doc.data()?.scenes?.find((scene) => scene.id == id);
-        getScene(result);
-        setLoading(false);
-      });
-
-      return unsub;
-    }
+    setSceneId(id);
+    setLoading(false);
   }, [user]);
 
   return (
     <>
       <div className='min-h-screen w-100 flex justify-center items-center flex-wrap'>
-        {sceneLoading && <Loading />}
-        {!sceneLoading && scene && (
+        {loading && <Loading />}
+        {!loading && currentScene && (
           <div className='content-center overflow-hidden'>
-            <NewTodo scene={scene} />
-            <TodoHolder scene={scene} />
+            <NewTodo scene={currentScene} user={user} />
+            <TodoHolder scene={currentScene} />
           </div>
         )}
-        {!sceneLoading && !scene && <SceneNotFound />}
+        {!loading && !currentScene && <SceneNotFound />}
       </div>
     </>
   );
