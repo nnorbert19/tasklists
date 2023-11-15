@@ -4,13 +4,14 @@ import { useCtx } from '@/context/Context';
 
 function RightSideBar({ children }) {
   const { currentScene, sceneLoading } = useCtx();
+  console.log(currentScene);
 
   if (!currentScene) return <>{children};</>;
   return (
     <div className='drawer drawer-end lg:drawer-open'>
       <input id='right-sidebar' type='checkbox' className='drawer-toggle' />
       <div className='h-full drawer-content'>
-        {/* Page content here */}
+        {/* oldal*/}
         {children}
         <label
           htmlFor='right-sidebar'
@@ -36,9 +37,9 @@ function RightSideBar({ children }) {
         <ul
           className={`${
             sceneLoading && 'flex justify-center align-center'
-          }menu p-4 w-48 min-h-full bg-primary text-base-content`}
+          } menu p-4 w-48 min-h-full bg-primary text-base-content`}
         >
-          {/* Sidebar content here */}
+          {/* tartalom */}
           {sceneLoading && (
             <div className='mx-auto'>
               <Loading />

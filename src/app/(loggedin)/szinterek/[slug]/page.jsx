@@ -16,8 +16,8 @@ function Page() {
   const parts = pathname.split('/');
   const id = parts[parts.length - 1];
   const [loading, setLoading] = useState(true);
+  console.log(pathname);
 
-  console.log(user);
   useEffect(() => {
     setSceneId(id);
     setLoading(false);
@@ -25,12 +25,12 @@ function Page() {
 
   return (
     <>
-      <div className='min-h-screen w-100 flex justify-center items-center flex-wrap'>
+      <div className='min-h-screen max-h-screen w-100 flex justify-center items-center flex-wrap overflow-y-auto overflow-x-hidden'>
         {loading && <Loading />}
         {!loading && currentScene && (
-          <div className='content-center overflow-hidden'>
+          <div className='content-center'>
             <NewTodo scene={currentScene} user={user} />
-            <TodoHolder scene={currentScene} />
+            <TodoHolder scene={currentScene} user={user} />
           </div>
         )}
         {!loading && !currentScene && <SceneNotFound />}

@@ -8,10 +8,8 @@ export const metadata = {
 
 export default function sceneLayout({ children }) {
   return (
-    <>
-      <RightSideBar>
-        <div className='min-w-100 min-h-full'>{children}</div>
-      </RightSideBar>
-    </>
+    <RightSideBar>
+      <div className='min-w-100 min-h-full'>{children}</div>
+    </RightSideBar>
   );
 }

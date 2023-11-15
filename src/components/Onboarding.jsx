@@ -22,7 +22,7 @@ function Onboarding({ user }) {
 
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [name, setName] = useState();
+  const [name, setName] = useState(user?.name);
   const [photoURL, setPhotoUrl] = useState(
     user?.picture ? user?.picture : null
   );
@@ -61,7 +61,6 @@ function Onboarding({ user }) {
     try {
       file = fileCheck(fileElement);
     } catch (error) {
-      console.log(error);
       toast.error(error.message);
       return;
     }
@@ -74,8 +73,6 @@ function Onboarding({ user }) {
       (snapshot) => {
         // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
         const progress = snapshot.bytesTransferred / snapshot.totalBytes;
-        console.log('Upload is ' + progress + '% done');
-
         if (toastId.current === null) {
           toastId.current = toast('Kép feltöltése folyamatban!', { progress });
         } else {
@@ -106,6 +103,7 @@ function Onboarding({ user }) {
 
   async function createUserInDb() {
     const docData = {
+      profilePic: photoURL,
       email: user.email,
       scenes: [],
       displayName: name,
@@ -192,6 +190,7 @@ function Onboarding({ user }) {
             <input
               required
               type='text'
+              value={name}
               onChange={(e) => setName(e.target.value)}
               placeholder='Kovács Péter'
               className={`input input-bordered w-full max-w-xs`}

@@ -17,7 +17,6 @@ function NewTodo({ scene, user }) {
   if (!scene) return <Loading />;
 
   async function submitForm(e) {
-    console.log(selectedUser);
     e.preventDefault();
     const id = uuidv4();
     const todoData = {
@@ -40,13 +39,12 @@ function NewTodo({ scene, user }) {
       }),
     };
 
-    const history = {};
     try {
       const todoDocRef = doc(db, 'scenes', scene.id);
 
       await updateDoc(todoDocRef, todoData);
     } catch (error) {
-      console.log(error);
+      toast.error('Hiba történt');
     }
 
     setDate();
@@ -72,6 +70,8 @@ function NewTodo({ scene, user }) {
             <div className='mb-4'>
               <label className='block text-sm font-medium '>Teendő neve*</label>
               <input
+                maxlength='50'
+                placeholder='Maximum 50 karakter.'
                 required
                 type='text'
                 ref={titleRef}
@@ -83,8 +83,9 @@ function NewTodo({ scene, user }) {
                 Részletes leírás
               </label>
               <textarea
+                maxlength='256'
                 ref={descriptionRef}
-                placeholder='Teendő részletes leírása'
+                placeholder='Teendő részletes leírása, maximum 256 karakter.'
                 className='textarea textarea-bordered textarea-primary textarea-xs w-full '
               ></textarea>
             </div>

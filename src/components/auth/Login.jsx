@@ -50,7 +50,7 @@ export default function Login() {
         });
       })
       .catch((err) => {
-        console.log(err);
+        setLoading(false);
         switch (err.code) {
           case 'auth/wrong-password':
             toast.error('Hibás jelszó!', {

@@ -59,13 +59,18 @@ function NewScene() {
         userData.push({
           email: user.email,
           displayName: user.displayName,
+          photoUrl: user?.profilePic,
         });
         const userDocRef = doc(db, 'users', user.email);
         batch.update(userDocRef, data);
       });
 
       //létrehozó
-      userData.push({ email: user.email, displayName: user.displayName });
+      userData.push({
+        email: user.email,
+        displayName: user.displayName,
+        photoUrl: user?.photoURL,
+      });
       const userDocRef = doc(db, 'users', user.email);
       batch.update(userDocRef, data);
 
@@ -92,6 +97,7 @@ function NewScene() {
       setLoading(false);
       router.push(`/szinterek/${id}`);
     } catch (error) {
+      console.error(error.message);
       toast.error('Hiba történt!');
       setLoading(false);
     }

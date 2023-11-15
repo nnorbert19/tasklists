@@ -1,43 +1,51 @@
-function TodoHolder({ scene }) {
-  const showExtraContainer = scene?.modApproval || false;
+import Todo from './Todo';
 
-  //toDo
-  //inProgress
-  //ready
-  //awaitingApproval
+function TodoHolder({ scene, user }) {
+  const showExtraContainer = scene?.modApproval || false;
+  const toDoStage = scene?.todos.filter((todo) => todo?.stage == 'toDo');
+  const inProgress = scene?.todos.filter((todo) => todo?.stage == 'inProgress');
+  const ready = scene?.todos.filter((todo) => todo?.stage == 'ready');
+  const awaitingApproval = scene?.todos.filter(
+    (todo) => todo?.stage == 'awaitingApproval'
+  );
 
   return (
-    <div className='grid-cols-2 w-full h-full overflow-hidden'>
+    <div className='grid-cols-2 w-full h-full mb-5'>
       <div
         className={`grid ${
           showExtraContainer
             ? 'xl:grid-cols-4 lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-2'
             : 'xl:grid-cols-3 lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-2'
-        } gap-5 text-center`}
+        } gap-3 text-center px-3 `}
       >
-        {/* To Do Container */}
-        <div className='flex-auto w-56 h-72 bg-white p-4 rounded-lg shadow-xl'>
+        <div className='flex-grow min-w-[200px] h-96 bg-white p-4 rounded-lg shadow-xl overflow-auto'>
           <h3 className=' font-semibold mb-2'>Elkészítendő</h3>
-          {/* Add your To Do tasks here */}
+          {toDoStage.map((todo) => (
+            <Todo key={todo.id} data={todo} />
+          ))}
         </div>
 
-        {/* Doing Container */}
-        <div className='flex-auto w-56 sm:w-100 h-72 bg-white p-4 rounded-lg shadow-xl'>
+        <div className='flex-grow min-w-[200px] h-96 bg-white p-4 rounded-lg shadow-xl overflow-auto'>
           <h3 className='font-semibold mb-2'>Folyamatban</h3>
-          {/* Add your Doing tasks here */}
+          {inProgress.map((todo) => (
+            <Todo key={todo.id} data={todo} />
+          ))}
         </div>
 
         {showExtraContainer && (
-          <div className='flex-auto w-56 h-72 bg-white p-4 rounded-lg shadow-xl'>
+          <div className='flex-grow min-w-[200px] h-96 bg-white p-4 rounded-lg shadow-xl overflow-auto'>
             <h3 className='font-semibold mb-2'>Jóváhagyásra vár</h3>
-            {/* Add your Extra tasks here */}
+            {awaitingApproval.map((todo) => (
+              <Todo key={todo.id} data={todo} />
+            ))}
           </div>
         )}
 
-        {/* Completed Container */}
-        <div className='flex-auto w-56 h-72 bg-white p-4 rounded-lg shadow-xl'>
+        <div className='flex-grow min-w-[200px] h-96 bg-white p-4 rounded-lg shadow-xl overflow-auto'>
           <h3 className='font-semibold mb-2'>Kész</h3>
-          {/* Add your Completed tasks here */}
+          {ready.map((todo) => (
+            <Todo key={todo.id} data={todo} />
+          ))}
         </div>
       </div>
     </div>

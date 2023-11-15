@@ -83,6 +83,9 @@ const SearchComponent = (props) => {
         {showPopup && (
           <div className='absolute top-full left-0 mt-2 p-2 bg-white border rounded shadow-lg  min-w-fit '>
             <ul className='space-y-2 max-h-28 overflow-x-auto'>
+              {filteredUsersToDisplay.length == 0 && (
+                <li>Nincs megjeleníthető felhasználó</li>
+              )}
               {filteredUsersToDisplay.map((user) => (
                 <li key={user.email} className='flex items-center'>
                   <input

@@ -14,7 +14,7 @@ export function CtxProvider({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
-      const unsubscribe = onSnapshot(doc(db, 'users', user.email), (doc) => {
+      const unsubscribe = onSnapshot(doc(db, 'users', user?.email), (doc) => {
         setUserDbData(doc.data());
       });
       return () => unsubscribe();
@@ -39,7 +39,6 @@ export function CtxProvider({ children }) {
       return () => unsubscribe();
     }
   }, [user, userDbData]);
-  console.log(scenes);
 
   useEffect(() => {
     if (scenes && sceneId) {
