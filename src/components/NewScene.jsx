@@ -20,7 +20,7 @@ function NewScene() {
   const router = useRouter();
   const nameRef = useRef();
   const [isMod, setIsMod] = useState(false);
-  const [isCreate, setIsCreate] = useState(false);
+  const [isCreate, setIsCreate] = useState(true);
   const [loading, setLoading] = useState();
   const [users, setUsers] = useState();
   const [usersToFilter, setUsersToFilter] = useState();
@@ -86,6 +86,15 @@ function NewScene() {
           { type: 'created', date: new Date(), user: user.displayName },
         ],
       };
+
+      const messagesData = {
+        id: id,
+        messages: [],
+        users: [...userData],
+      };
+
+      const messagesDocRef = doc(db, 'messages', id);
+      batch.set(messagesDocRef, messagesData);
 
       const sceneDocRef = doc(db, 'scenes', id);
       batch.set(sceneDocRef, sceneData);

@@ -1,12 +1,18 @@
 'use client';
 import Loading from '@/app/Loading';
 import { useCtx } from '@/context/Context';
+import { usePathname, useRouter } from 'next/navigation';
 
 function RightSideBar({ children }) {
   const { currentScene, sceneLoading } = useCtx();
-  console.log(currentScene);
+  const router = useRouter();
+
+  const pathname = usePathname();
+  const parts = pathname.split('/');
+  const id = parts[parts.length - 2];
 
   if (!currentScene) return <>{children};</>;
+
   return (
     <div className='drawer drawer-end lg:drawer-open'>
       <input id='right-sidebar' type='checkbox' className='drawer-toggle' />
@@ -45,7 +51,30 @@ function RightSideBar({ children }) {
               <Loading />
             </div>
           )}
-          {!sceneLoading && currentScene && <li>{currentScene?.name}</li>}
+          {!sceneLoading && currentScene && (
+            <>
+              {parts[parts.length - 1] == 'beszelgetes' ? (
+                <li>
+                  <button
+                    className='btn btn-neutral'
+                    onClick={() => router.push(`/szinterek/${id}`)}
+                  >
+                    Teendők
+                  </button>
+                </li>
+              ) : (
+                <li>
+                  <button
+                    className='btn btn-neutral'
+                    onClick={() => router.push(pathname + '/beszelgetes')}
+                  >
+                    Beszélgetés
+                  </button>
+                </li>
+              )}
+              <li>{currentScene?.name}</li>
+            </>
+          )}
         </ul>
       </div>
     </div>

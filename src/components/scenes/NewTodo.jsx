@@ -7,6 +7,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { format } from 'date-fns';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
+import { toast } from 'react-toastify';
 
 function NewTodo({ scene, user }) {
   const titleRef = useRef();
@@ -27,7 +28,7 @@ function NewTodo({ scene, user }) {
           ? descriptionRef?.current?.value
           : null,
         assigned: selectedUser ? selectedUser : null,
-        deadline: date ? format(date, 'yyyy/MM/dd') : null,
+        deadline: date ? date : null,
         stage: 'toDo',
         date: new Date(),
       }),
@@ -45,9 +46,13 @@ function NewTodo({ scene, user }) {
       await updateDoc(todoDocRef, todoData);
     } catch (error) {
       toast.error('Hiba történt');
+      console.error(error.message);
     }
+    toast.success('Teendő sikeresen hozzáadva!');
 
     setDate();
+    setSelectedUser();
+    descriptionRef.current.value = '';
     titleRef.current.value = '';
     document.getElementById('newTodoModal').close();
   }
@@ -70,7 +75,7 @@ function NewTodo({ scene, user }) {
             <div className='mb-4'>
               <label className='block text-sm font-medium '>Teendő neve*</label>
               <input
-                maxlength='50'
+                maxLength='50'
                 placeholder='Maximum 50 karakter.'
                 required
                 type='text'
@@ -83,7 +88,7 @@ function NewTodo({ scene, user }) {
                 Részletes leírás
               </label>
               <textarea
-                maxlength='256'
+                maxLength='256'
                 ref={descriptionRef}
                 placeholder='Teendő részletes leírása, maximum 256 karakter.'
                 className='textarea textarea-bordered textarea-primary textarea-xs w-full '

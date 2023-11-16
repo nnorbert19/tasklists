@@ -14,10 +14,12 @@ export function CtxProvider({ children }) {
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
       setUser(user);
-      const unsubscribe = onSnapshot(doc(db, 'users', user?.email), (doc) => {
-        setUserDbData(doc.data());
-      });
-      return () => unsubscribe();
+      if (user) {
+        const unsubscribe = onSnapshot(doc(db, 'users', user?.email), (doc) => {
+          setUserDbData(doc.data());
+        });
+        return () => unsubscribe();
+      }
     });
     return () => unsubscribe();
   }, []);
