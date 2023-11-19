@@ -1,4 +1,4 @@
-import LeftSideBar from '@/components/LeftSideBar';
+import LeftSideBar from '@/components/navigation/LeftSideBar';
 import '@/styles/globals.css';
 import { Suspense } from 'react';
 import Loading from './Loading';

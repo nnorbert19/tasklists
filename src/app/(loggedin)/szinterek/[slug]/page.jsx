@@ -16,12 +16,13 @@ function Page() {
   const parts = pathname.split('/');
   const id = parts[parts.length - 1];
   const [loading, setLoading] = useState(true);
-  console.log(pathname);
 
   useEffect(() => {
     setSceneId(id);
     setLoading(false);
   }, [user]);
+
+  console.log(id);
 
   return (
     <>

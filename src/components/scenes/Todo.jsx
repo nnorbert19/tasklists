@@ -81,7 +81,6 @@ function Todo({
 
       await updateDoc(documentRef, {
         todos: arrayUnion({
-          id: data.id,
           ...data,
         }),
         history: arrayUnion({
@@ -143,7 +142,7 @@ function Todo({
     router.replace(pathname);
     setIsEditing(false);
   }
-
+  console.log(scene);
   function basicModalUI() {
     return (
       <div className='flex flex-col items-center text-center min-h-52'>

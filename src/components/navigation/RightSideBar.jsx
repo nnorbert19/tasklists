@@ -2,14 +2,17 @@
 import Loading from '@/app/Loading';
 import { useCtx } from '@/context/Context';
 import { usePathname, useRouter } from 'next/navigation';
+import HistoryLister from '../scenes/HistoryLister';
+import UserLister from '../scenes/UserLister';
 
 function RightSideBar({ children }) {
-  const { currentScene, sceneLoading } = useCtx();
+  const { currentScene, sceneLoading, user } = useCtx();
+  const userIsAdmin = currentScene?.administratorEmail == user?.email;
   const router = useRouter();
 
   const pathname = usePathname();
   const parts = pathname.split('/');
-  const id = parts[parts.length - 2];
+  const id = currentScene?.id;
 
   if (!currentScene) return <>{children};</>;
 
@@ -42,8 +45,8 @@ function RightSideBar({ children }) {
         ></label>
         <ul
           className={`${
-            sceneLoading && 'flex justify-center align-center'
-          } menu p-4 w-48 min-h-full bg-primary text-base-content`}
+            sceneLoading ? 'justify-center' : 'justify-start'
+          } flex align-center content-center flex-wrap flex-col pt-4 w-48 min-h-full bg-primary text-base-content`}
         >
           {/* tartalom */}
           {sceneLoading && (
@@ -52,7 +55,12 @@ function RightSideBar({ children }) {
             </div>
           )}
           {!sceneLoading && currentScene && (
-            <>
+            <div className='flex justify-start items-center flex-col  overflow-hidden'>
+              <li>
+                <h2 className='text-xl font-medium pb-4'>
+                  {currentScene?.name}
+                </h2>
+              </li>
               {parts[parts.length - 1] == 'beszelgetes' ? (
                 <li>
                   <button
@@ -72,8 +80,20 @@ function RightSideBar({ children }) {
                   </button>
                 </li>
               )}
-              <li>{currentScene?.name}</li>
-            </>
+              <li>
+                <UserLister
+                  users={currentScene.users}
+                  userIsAdmin={userIsAdmin}
+                  userEmail={user?.email}
+                  sceneId={currentScene.id}
+                  displayName={user.displayName}
+                  sceneName={currentScene.name}
+                />
+              </li>
+              <li>
+                <HistoryLister />
+              </li>
+            </div>
           )}
         </ul>
       </div>

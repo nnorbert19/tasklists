@@ -40,6 +40,7 @@ function TodoHolder({ scene, user }) {
               key={todo.id}
               data={todo}
               user={user}
+              scene={scene}
               administrator={scene.administratorEmail}
               modApproval={scene.modApproval}
               userCanCreate={scene.userCanCreate}
@@ -55,6 +56,7 @@ function TodoHolder({ scene, user }) {
                 key={todo.id}
                 data={todo}
                 user={user}
+                scene={scene}
                 administrator={scene.administratorEmail}
                 modApproval={scene.modApproval}
                 userCanCreate={scene.userCanCreate}
@@ -70,6 +72,7 @@ function TodoHolder({ scene, user }) {
               key={todo.id}
               data={todo}
               user={user}
+              scene={scene}
               administrator={scene.administratorEmail}
               modApproval={scene.modApproval}
               userCanCreate={scene.userCanCreate}

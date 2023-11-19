@@ -6,8 +6,6 @@ const SearchComponent = (props) => {
   const { user } = useCtx();
   const users = props?.filterFrom;
 
-  console.log(props);
-
   const [filteredUsers, setFilteredUsers] = useState(props?.filterFrom);
   const [selectedUsers, setSelectedUsers] = useState(
     props?.selectedUser ? [props?.selectedUser] : []

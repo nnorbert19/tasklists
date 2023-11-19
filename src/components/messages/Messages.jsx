@@ -12,9 +12,9 @@ function Messages({ message, sentByUser, users }) {
         </div>
       </div>
       <div className='chat-header font-medium'>{sender[0].displayName}</div>
-      <div className='chat-bubble chat-bubble-secondary'>{message.message}</div>
+      <div className='chat-bubble chat-bubble-info'>{message.message}</div>
       <div className='chat-footer opacity-50'>
-        {format(fromUnixTime(message.timestamp.seconds), 'yyyy/MM/dd hh:mm')}
+        {format(fromUnixTime(message.timestamp.seconds), 'yyyy/MM/dd H:mm')}
       </div>
     </div>
   );

@@ -1,12 +1,20 @@
 import { useCtx } from '@/context/Context';
 import NewMessage from './NewMessage';
 import Messages from './Messages';
+import { useEffect, useRef } from 'react';
 
 function MessagesHolder({ messagesData }) {
   const { user } = useCtx();
-  {
-    messagesData.messages?.map((message) => {});
-  }
+  const messagesEndRef = useRef();
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messagesData]);
+
   return (
     <div className='w-full h-screen p-10'>
       <div className='flex flex-col w-full h-full bg-base-100 rounded-lg p-5'>
@@ -19,6 +27,7 @@ function MessagesHolder({ messagesData }) {
               users={messagesData.users}
             />
           ))}
+          <div ref={messagesEndRef} />
         </div>
         <NewMessage user={user} id={messagesData.id} />
       </div>

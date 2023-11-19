@@ -11,7 +11,7 @@ function Avatar({ photoUrl, ...props }) {
         sizes='100%'
         quality={80}
         style={{ width: 'auto', height: 'auto', maxHeight: '400px' }}
-        className='avatar rounded-full aspect-square overflow-hidden '
+        className='avatar rounded-full aspect-square overflow-hidden border'
         src={url}
         width={0}
         height={0}

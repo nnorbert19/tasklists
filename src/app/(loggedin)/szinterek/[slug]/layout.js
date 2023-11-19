@@ -1,5 +1,5 @@
 import Loading from '@/app/Loading';
-import RightSideBar from '@/components/RightSideBar';
+import RightSideBar from '@/components/navigation/RightSideBar';
 
 export const metadata = {
   title: 'Create Next App',

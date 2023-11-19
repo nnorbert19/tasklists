@@ -38,7 +38,9 @@ export function CtxProvider({ children }) {
         });
         setScenes(scenesTmp);
       });
-      return () => unsubscribe();
+      return () => {
+        unsubscribe();
+      };
     }
   }, [user, userDbData]);
 

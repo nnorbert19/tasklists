@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { usePathname, useRouter } from 'next/navigation';
-import Avatar from './user/Avatar';
+import Avatar from '../user/Avatar';
 import Link from 'next/link';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { useCtx } from '@/context/Context';
@@ -67,7 +67,7 @@ function LeftSideBar({ children }) {
           ></label>
           <ul className='menu w-48 min-h-full bg-primary text-base-content'>
             {/* tartalom */}
-            <div className='flex justify-start items-center flex-col overflow-hidden'>
+            <div className='flex justify-start items-center flex-col overflow-hidden font-medium'>
               <div className={`w-24 duration-500 ease-in-out`}>
                 <Link href={'/profil'}>
                   <Avatar photoUrl={user?.photoURL} />
