@@ -187,7 +187,9 @@ function UserLister({
           className='divide-y divide-gray-200 dark:divide-gray-700 text-left overflow-hidden'
         >
           {users.map((user) => (
-            <UserComponent withEmail key={user.email} user={user} />
+            <li key={user.email} className='py-1 sm:py-2'>
+              <UserComponent withEmail user={user} />
+            </li>
           ))}
         </ul>
         <button

@@ -7,6 +7,7 @@ import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import DatePicker from 'react-datepicker';
 import SearchComponent from '../SearchComponent';
+import UserComponent from './UserComponent';
 
 function Todo({
   data,
@@ -156,15 +157,13 @@ function Todo({
               {format(fromUnixTime(date.seconds), 'yyyy/MM/dd HH:MM')}
             </p>
           </div>
-          <div className='w-40'>
+          <div className='w-30'>
             {assigned && (
               <>
                 <p className='text-xs font-medium text-gray-500'>
                   Hozzárendelt személy:
                 </p>
-                <p className='text-xs font-medium italic text-gray-500'>
-                  {assigned.displayName}
-                </p>
+                <UserComponent user={assigned} />
               </>
             )}
           </div>
@@ -207,7 +206,8 @@ function Todo({
     );
   }
 
-  async function submitForm() {
+  async function submitForm(e) {
+    e.preventDefault();
     if (!userCanCreate) {
       toast.error('Ehhez nincs joga.');
       return;
@@ -341,11 +341,7 @@ function Todo({
               Határidő: {format(fromUnixTime(deadline.seconds), 'yyyy/MM/dd')}
             </p>
           )}
-          {assigned && (
-            <p className='text-xs font-medium italic text-gray-500'>
-              {assigned.displayName}
-            </p>
-          )}
+          {assigned && <UserComponent user={assigned} />}
         </div>
       </div>
     </>
