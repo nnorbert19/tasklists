@@ -4,6 +4,7 @@ import { useCtx } from '@/context/Context';
 import { usePathname, useRouter } from 'next/navigation';
 import HistoryLister from '../scenes/HistoryLister';
 import UserLister from '../scenes/UserLister';
+import EditScene from '../scenes/EditScene';
 
 function RightSideBar({ children }) {
   const { currentScene, sceneLoading, user } = useCtx();
@@ -82,17 +83,18 @@ function RightSideBar({ children }) {
               )}
               <li>
                 <UserLister
-                  users={currentScene.users}
+                  users={currentScene?.users}
                   userIsAdmin={userIsAdmin}
                   userEmail={user?.email}
-                  sceneId={currentScene.id}
-                  displayName={user.displayName}
-                  sceneName={currentScene.name}
+                  sceneId={currentScene?.id}
+                  displayName={user?.displayName}
+                  sceneName={currentScene?.name}
                 />
               </li>
               <li>
-                <HistoryLister />
+                <HistoryLister history={currentScene?.history} />
               </li>
+              {userIsAdmin && <EditScene currentScene={currentScene} />}
             </div>
           )}
         </ul>

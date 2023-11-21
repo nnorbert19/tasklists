@@ -65,6 +65,24 @@ function Todo({
     }
   }
 
+  async function deleteTodo(todo) {
+    if (confirm(`Biztos el szeretnéd törölni ezt a teendőt?`)) {
+      try {
+        await updateDoc(doc(db, 'scenes', sceneId), {
+          todos: arrayRemove(todo),
+          history: arrayUnion({
+            type: 'todoRemoved',
+            date: new Date(),
+            user: user.displayName,
+            title: data.title,
+          }),
+        });
+      } catch (error) {
+        console.error(error.message);
+      }
+    }
+  }
+
   async function moveTodo(stage) {
     if (stage == 'ready' && modApproval && administrator !== user.email) {
       toast.error('Ehhez nincs joga.');
@@ -143,7 +161,7 @@ function Todo({
     router.replace(pathname);
     setIsEditing(false);
   }
-  console.log(scene);
+
   function basicModalUI() {
     return (
       <div className='flex flex-col items-center text-center min-h-52'>
@@ -197,7 +215,7 @@ function Todo({
         {administrator == user?.email && (
           <label
             className='btn-xs mt-1 text-blue-700 hover:cursor-pointer'
-            onClick={() => console.log('törlés')}
+            onClick={() => deleteTodo(data)}
           >
             Teendő törlése
           </label>

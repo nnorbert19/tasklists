@@ -22,8 +22,6 @@ function Page() {
     setLoading(false);
   }, [user]);
 
-  console.log(id);
-
   return (
     <>
       <div className='min-h-screen max-h-screen w-100 flex justify-center items-center flex-wrap overflow-y-auto overflow-x-hidden'>

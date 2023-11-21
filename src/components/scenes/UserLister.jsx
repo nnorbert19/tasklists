@@ -39,7 +39,6 @@ function UserLister({
   async function getUsers() {
     const querySnapshot = await getDocs(collection(db, 'users'));
     let userData = [];
-    console.log();
     querySnapshot.forEach((doc) => {
       userData.push(doc.data());
     });
@@ -105,8 +104,10 @@ function UserLister({
         await updateDoc(doc(db, 'scenes', sceneId), {
           users: arrayRemove(user),
         });
+        toast.success('Felhasználó sikeresen eltávolítva.');
       } catch (error) {
         console.error(error.message);
+        toast.error('Hiba történt.');
       }
     }
   }
@@ -180,11 +181,11 @@ function UserLister({
           <button>close</button>
         </form>
       </dialog>
-      <div className='bg-base-200 max-h-56 p-1 pb-2 mt-2 border-base-100 rounded-lg text-center'>
+      <div className='bg-base-200 h-56 p-1 pb-2 mt-2 border-base-100 rounded-lg text-center'>
         <p className='font-medium'>Felhasználók:</p>
         <ul
           role='list'
-          className='divide-y divide-gray-200 dark:divide-gray-700 text-left overflow-hidden'
+          className='divide-y divide-base-300 h-40 dark:divide-gray-700 text-left overflow-hidden'
         >
           {users.map((user) => (
             <li key={user.email} className='py-1 sm:py-2'>
