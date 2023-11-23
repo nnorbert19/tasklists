@@ -8,7 +8,7 @@ const SearchComponent = (props) => {
 
   const [filteredUsers, setFilteredUsers] = useState(props?.filterFrom);
   const [selectedUsers, setSelectedUsers] = useState(
-    props?.selectedUser ? [props?.selectedUser] : []
+    props?.selectedUser ? props?.selectedUser : []
   );
   const [searchTerm, setSearchTerm] = useState('');
   const [showPopup, setShowPopup] = useState(false);
@@ -88,7 +88,7 @@ const SearchComponent = (props) => {
               {filteredUsersToDisplay.length == 0 && (
                 <li>Nincs megjeleníthető felhasználó</li>
               )}
-              {filteredUsersToDisplay.map((user) => (
+              {filteredUsersToDisplay?.map((user) => (
                 <li key={user.email} className='flex items-center'>
                   <input
                     type='checkbox'
@@ -119,7 +119,7 @@ const SearchComponent = (props) => {
             : 'Kiválasztott felhasználók:'}
         </label>
         <ul className='max-h-24 min-h-6 border-primary p-1 overflow-y-auto overflow-hidden border rounded'>
-          {selectedUsers.map((user) => (
+          {selectedUsers?.map((user) => (
             <li key={user.email} className='flex justify-between items-center'>
               <div className='flex flex-col'>
                 <p className='text-sm font-semibold truncate max-w-[200px]'>

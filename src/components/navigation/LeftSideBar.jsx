@@ -83,9 +83,7 @@ function LeftSideBar({ children }) {
                     />
                   </svg>
                 </span>
-                <span className={` duration-500 font-medium px-2`}>
-                  Kezdőlap
-                </span>
+                <span className={`text-lg font-medium px-1`}>Kezdőlap</span>
               </Link>
               <Link
                 href={'/profil'}
@@ -109,14 +107,12 @@ function LeftSideBar({ children }) {
                     />
                   </svg>
                 </span>
-                <span className={` duration-500 font-medium  px-2`}>
-                  Profil
-                </span>
+                <span className={`text-lg  font-medium  px-1`}>Profil</span>
               </Link>
               <Link
-                href={'/feladataim'}
+                href={'/teendoim'}
                 className={`mt-10 ${
-                  pathname === '/feladataim' && 'bg-secondary-focus rounded-md'
+                  pathname === '/teendoim' && 'bg-secondary-focus rounded-md'
                 }  w-full flex flex-row items-center gap-x-4 hover:bg-secondary-focus rounded-md`}
               >
                 <span className='block float-left'>
@@ -135,8 +131,8 @@ function LeftSideBar({ children }) {
                     />
                   </svg>
                 </span>
-                <span className={` duration-500 font-medium  px-2`}>
-                  Feladataim
+                <span className={` duration-500 text-lg font-medium  px-1`}>
+                  Teendőim
                 </span>
               </Link>
               <div
@@ -164,7 +160,7 @@ function LeftSideBar({ children }) {
                       />
                     </svg>
                   </span>
-                  <span className={` duration-500 font-medium flex-1 px-2`}>
+                  <span className={`text-lg font-medium flex-1 px-1`}>
                     színterek
                   </span>
                 </Link>
@@ -250,7 +246,7 @@ function LeftSideBar({ children }) {
                     />
                   </svg>
                 </span>
-                <span className={` duration-500 font-medium px-2`}>
+                <span className={` duration-500 text-lg  font-medium px-1`}>
                   Kijelentkezés
                 </span>
               </a>

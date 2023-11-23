@@ -16,16 +16,15 @@ function Todo({
   modApproval,
   userCanCreate,
   scene,
+  sceneName,
+  showSceneName,
 }) {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { title, description, deadline, assigned, id, date } = data;
 
-  const titleRef = useRef();
-  const descriptionRef = useRef();
-
-  const sceneId = scene?.id;
+  const sceneId = scene?.id ? scene.id : scene;
   const [editTitle, setEditTitle] = useState(title);
   const [editDescription, setEditDescription] = useState(description);
   const [isEditing, setIsEditing] = useState(false);
@@ -80,8 +79,10 @@ function Todo({
             title: data.title,
           }),
         });
+        toast.success('Teendő sikeresen törölve!');
       } catch (error) {
         console.error(error.message);
+        toast.error('Hiba történt!');
       }
     }
   }
@@ -168,6 +169,9 @@ function Todo({
   function basicModalUI() {
     return (
       <div className='flex flex-col items-center text-center min-h-52'>
+        {showSceneName && (
+          <p className='text-xs font-medium text-gray-500'>{sceneName}</p>
+        )}
         <h1 className=' text-gray-500'>{toDoStage(data.stage)}</h1>
         <h1 className='text-2xl font-medium text-gray-900 py-4'>{title}</h1>
         {description && <p className='py-5'>{description}</p>}
@@ -235,7 +239,6 @@ function Todo({
     }
 
     const documentRef = doc(db, 'scenes', sceneId);
-    const descriptionTmp = descriptionRef?.current?.value;
 
     try {
       await updateDoc(documentRef, {
@@ -264,14 +267,14 @@ function Todo({
       console.error(error.message);
     }
 
-    toast.success('Teendő sikeresen mozgatva');
+    toast.success('Teendő sikeresen módosítva');
   }
 
   function editingModalUI() {
     return (
       <div className='flex flex-col items-center text-center min-h-52'>
         <form onSubmit={submitForm}>
-          <h1 className='text-2xl font-bold mb-4'>Teendő létrehozása</h1>
+          <h1 className='text-2xl font-bold mb-4'>Teendő módosítása</h1>
           <div className='mb-4'>
             <label className='block text-sm font-medium '>Teendő neve*</label>
             <input
@@ -279,7 +282,7 @@ function Todo({
               maxLength='50'
               type='text'
               value={editTitle}
-              onChange={() => setEditTitle(e.target.value)}
+              onChange={(e) => setEditTitle(e.target.value)}
               className='input input-bordered input-primary mt-1 p-2 w-full border rounded'
             />
           </div>
@@ -290,7 +293,7 @@ function Todo({
             <textarea
               maxLength='256'
               value={editDescription}
-              onChange={() => setEditDescription(e.target.value)}
+              onChange={(e) => setEditDescription(e.target.value)}
               className='textarea textarea-bordered textarea-primary textarea-xs w-full '
             ></textarea>
           </div>
@@ -352,6 +355,9 @@ function Todo({
           router.push(pathname + '?' + createQueryString('modal', id))
         }
       >
+        {showSceneName && (
+          <p className='text-xs font-medium text-gray-500'>{sceneName}</p>
+        )}
         <div className='flex items-center justify-between px-2 pt-2'>
           <h2 className='text-lg leading-6 font-medium text-gray-900'>
             {title}

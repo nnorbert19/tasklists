@@ -2,19 +2,12 @@
 import { useCtx } from '@/context/Context';
 import Link from 'next/link';
 import UserComponent from './UserComponent';
-import { format, fromUnixTime } from 'date-fns';
 
 function SceneLister() {
   const { scenes } = useCtx();
-  scenes?.map((scene) =>
-    console.log(
-      scene.users.find((user) => user.email == scene.administratorEmail)
-    )
-  );
 
-  console.log(scenes);
   return (
-    <div className='max-w-lg w-full max-h-[80vh] overflow-auto bg-white p-2 rounded-lg shadow-xl space-y-4 mx-auto '>
+    <div className='max-w-3xl w-full max-h-[80vh] overflow-auto bg-white p-2 rounded-lg shadow-xl space-y-4 mx-auto '>
       <h3 className='text-xl font-medium'>Színtereim</h3>
       {!scenes && <div>Nincs megjeleníthető színtered!</div>}
       {scenes?.map((scene) => (
@@ -33,7 +26,7 @@ function SceneLister() {
                 )}
               />
             </div>
-            <button className='btn btn-secondary btn-xs'>
+            <button className='btn btn-neutral btn-xs'>
               <Link href={`/szinterek/${scene?.id}`}>
                 <p className=' truncate max-w-10'>Színtér megnyitása</p>
               </Link>

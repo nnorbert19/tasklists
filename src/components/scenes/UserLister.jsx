@@ -121,8 +121,8 @@ function UserLister({
               <thead>
                 <tr>
                   <th>Profilkép</th>
-                  <th>Job</th>
-                  <th>Favorite Color</th>
+                  <th>Név</th>
+                  <th>E-mail</th>
                   {userIsAdmin && <th></th>}
                 </tr>
               </thead>

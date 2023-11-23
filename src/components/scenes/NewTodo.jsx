@@ -12,7 +12,7 @@ import { toast } from 'react-toastify';
 function NewTodo({ scene, user }) {
   const titleRef = useRef();
   const descriptionRef = useRef();
-  const [selectedUser, setSelectedUser] = useState();
+  const [selectedUser, setSelectedUser] = useState([]);
   const [date, setDate] = useState();
 
   if (!scene) return <Loading />;
@@ -27,7 +27,7 @@ function NewTodo({ scene, user }) {
         description: descriptionRef?.current?.value
           ? descriptionRef?.current?.value
           : null,
-        assigned: selectedUser ? selectedUser : null,
+        assigned: selectedUser?.email ? selectedUser : null,
         deadline: date ? date : null,
         stage: 'toDo',
         date: new Date(),
@@ -51,7 +51,7 @@ function NewTodo({ scene, user }) {
     toast.success('Teendő sikeresen hozzáadva!');
 
     setDate();
-    setSelectedUser();
+    setSelectedUser([]);
     descriptionRef.current.value = '';
     titleRef.current.value = '';
     document.getElementById('newTodoModal').close();
@@ -95,6 +95,7 @@ function NewTodo({ scene, user }) {
               ></textarea>
             </div>
             <SearchComponent
+              selectedUser={selectedUser}
               setUsers={setSelectedUser}
               onlyOne
               filterFrom={scene?.users}
