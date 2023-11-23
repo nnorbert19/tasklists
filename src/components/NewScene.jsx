@@ -14,6 +14,7 @@ import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { useCtx } from '@/context/Context';
 import Loading from '@/app/Loading';
+import { getUnixTime } from 'date-fns';
 
 function NewScene() {
   const { user } = useCtx();
@@ -46,13 +47,6 @@ function NewScene() {
     try {
       const batch = writeBatch(db);
 
-      const data = {
-        scenes: arrayUnion({
-          name: nameRef?.current?.value,
-          id: id,
-        }),
-      };
-
       let userData = [];
 
       userUpdates?.forEach((user) => {
@@ -62,7 +56,11 @@ function NewScene() {
           photoUrl: user?.profilePic,
         });
         const userDocRef = doc(db, 'users', user.email);
-        batch.update(userDocRef, data);
+        batch.update(userDocRef, {
+          scenes: arrayUnion({
+            id: id,
+          }),
+        });
       });
 
       //létrehozó
@@ -72,7 +70,11 @@ function NewScene() {
         photoUrl: user?.photoURL,
       });
       const userDocRef = doc(db, 'users', user.email);
-      batch.update(userDocRef, data);
+      batch.update(userDocRef, {
+        scenes: arrayUnion({
+          id: id,
+        }),
+      });
 
       const sceneData = {
         name: nameRef?.current?.value,
@@ -83,7 +85,11 @@ function NewScene() {
         userCanCreate: isCreate,
         users: [...userData],
         history: [
-          { type: 'created', date: new Date(), user: user.displayName },
+          {
+            type: 'created',
+            date: getUnixTime(new Date()),
+            user: user.displayName,
+          },
         ],
       };
 
@@ -99,7 +105,6 @@ function NewScene() {
       const sceneDocRef = doc(db, 'scenes', id);
       batch.set(sceneDocRef, sceneData);
 
-      // Commit the batch write
       await batch.commit();
 
       toast.success('Színtér létrehozva');

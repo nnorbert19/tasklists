@@ -1,28 +1,15 @@
 import { db } from '@/lib/firebase';
-import { doc, updateDoc } from 'firebase/firestore';
+import { arrayRemove, doc, updateDoc, writeBatch } from 'firebase/firestore';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 
 function EditScene({ currentScene }) {
+  const router = useRouter();
   const [isMod, setIsMod] = useState(currentScene?.modApproval);
   const [isCreate, setIsCreate] = useState(currentScene?.userCanCreate);
   const [disabled, setDisabled] = useState(true);
   const [title, setTitle] = useState(currentScene?.name);
-
-  async function submitForm(e) {
-    e.preventDefault();
-    try {
-      await updateDoc(doc(db, 'scenes', currentScene.id), {
-        name: title,
-        modApproval: isMod,
-        userCanCreate: isCreate,
-      });
-      toast.success('Sikeres módosítás!');
-    } catch (error) {
-      console.error(error.message);
-      toast.error('Hiba történt.');
-    }
-  }
 
   useEffect(() => {
     if (
@@ -39,6 +26,47 @@ function EditScene({ currentScene }) {
     currentScene?.userCanCreate,
     currentScene?.name,
   ]);
+
+  async function deleteScene() {
+    if (confirm(`Biztos ki szeretnéd törölni ezt a teendőt?`)) {
+      const batch = writeBatch(db);
+      try {
+        batch.delete(doc(db, 'scenes', currentScene.id));
+        batch.delete(doc(db, 'messages', currentScene.id));
+
+        currentScene?.users?.forEach((user) => {
+          const userDocRef = doc(db, 'users', user.email);
+          batch.update(userDocRef, {
+            scenes: arrayRemove({
+              id: currentScene.id,
+            }),
+          });
+        });
+
+        await batch.commit();
+        router.push('/kezdolap');
+      } catch (error) {
+        console.error(error.message);
+        toast.error('hiba történt');
+      }
+    }
+  }
+
+  async function submitForm(e) {
+    e.preventDefault();
+    try {
+      await updateDoc(doc(db, 'scenes', currentScene.id), {
+        name: title,
+        modApproval: isMod,
+        userCanCreate: isCreate,
+      });
+
+      toast.success('Sikeres módosítás!');
+    } catch (error) {
+      console.error(error.message);
+      toast.error('Hiba történt.');
+    }
+  }
 
   function toggleModal() {
     document.getElementById('editSceneModal').showModal();
@@ -97,6 +125,12 @@ function EditScene({ currentScene }) {
               </button>
             </div>
           </form>
+          <label
+            className='btn-xs mt-1 text-blue-700 hover:cursor-pointer'
+            onClick={() => deleteScene()}
+          >
+            Teendő törlése
+          </label>
         </div>
         <form method='dialog' className='modal-backdrop'>
           <button>Mégse</button>

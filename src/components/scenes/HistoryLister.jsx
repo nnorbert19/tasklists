@@ -36,7 +36,8 @@ function HistoryLister({ history }) {
         default:
           break;
       }
-      array.push({ text: text, date: event.date.seconds });
+      console.log(event.date);
+      array.push({ text: text, date: event.date });
     });
     array.reverse();
 
@@ -61,10 +62,14 @@ function HistoryLister({ history }) {
           >
             {historyArray &&
               historyArray.map((event) => (
-                <li key={event.date} className='py-1 sm:py-2'>
+                <li key={event.date.seconds} className='py-1 sm:py-2'>
                   <div className='text-s font-medium'>{event.text}</div>
                   <p className='text-xs font-medium italic text-gray-500'>
-                    {format(fromUnixTime(event.date), 'yyyy/MM/dd HH:MM')}
+                    {/*format(
+                      fromUnixTime(event.date.nanoseconds / 1000),
+                      'yyyy/MM/dd HH:MM'
+                    )*/}
+                    {format(fromUnixTime(event.date), 'yyyy/MM/dd HH:mm')}
                   </p>
                 </li>
               ))}
@@ -86,7 +91,7 @@ function HistoryLister({ history }) {
                 <li key={event.date} className='py-1 sm:py-2'>
                   <div className='truncate max-w-[170px]'>{event.text}</div>
                   <p className='text-xs font-medium italic text-gray-500'>
-                    {format(fromUnixTime(event.date), 'yyyy/MM/dd HH:MM')}
+                    {format(fromUnixTime(event.date), 'yyyy/MM/dd HH:mm')}
                   </p>
                 </li>
               ))}

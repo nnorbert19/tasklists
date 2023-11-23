@@ -37,7 +37,28 @@ function Registration() {
           });
         })
 
-        .catch((error) => console.log(error));
+        .catch((err) => {
+          console.log(err.code);
+          switch (err.code) {
+            case 'auth/email-already-in-use':
+              toast.error('E-mail cím már használatban van!', {
+                autoClose: 5000,
+              });
+              setPasswordProblem(true);
+              break;
+            case 'auth/invalid-email':
+              toast.error('Hibás e-mail!', {
+                autoClose: 5000,
+              });
+              setEmailProblem(true);
+              break;
+            default:
+              toast.error('Hiba lépett fel, kérjük próbálja meg újra!', {
+                autoClose: 5000,
+              });
+              break;
+          }
+        });
       setLoading(false);
       setPasswordProblem(false);
     } else {

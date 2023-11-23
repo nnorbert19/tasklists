@@ -1,9 +1,7 @@
-import NewScene from '@/components/NewScene';
-import { auth } from 'firebase-admin';
-import { cookies } from 'next/headers';
+import SceneLister from '@/components/scenes/SceneLister';
 
-async function page() {
-  return <>enter</>;
+function Page() {
+  return <SceneLister />;
 }
 
-export default page;
+export default Page;

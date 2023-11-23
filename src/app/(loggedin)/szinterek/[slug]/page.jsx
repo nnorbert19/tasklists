@@ -28,7 +28,10 @@ function Page() {
         {loading && <Loading />}
         {!loading && currentScene && (
           <div className='content-center'>
-            <NewTodo scene={currentScene} user={user} />
+            {(currentScene.userCanCreate ||
+              currentScene.administratorEmail == user.email) && (
+              <NewTodo scene={currentScene} user={user} />
+            )}
             <TodoHolder scene={currentScene} user={user} />
           </div>
         )}

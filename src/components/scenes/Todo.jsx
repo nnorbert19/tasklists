@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { usePathname, useRouter } from 'next/navigation';
-import { format, fromUnixTime } from 'date-fns';
+import { format, fromUnixTime, getUnixTime } from 'date-fns';
 import { toast } from 'react-toastify';
 import { arrayRemove, arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -21,11 +21,14 @@ function Todo({
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const { title, description, deadline, assigned, id, date } = data;
-  const sceneId = scene?.id;
-  const [isEditing, setIsEditing] = useState(false);
 
   const titleRef = useRef();
   const descriptionRef = useRef();
+
+  const sceneId = scene?.id;
+  const [editTitle, setEditTitle] = useState(title);
+  const [editDescription, setEditDescription] = useState(description);
+  const [isEditing, setIsEditing] = useState(false);
   const [selectedUser, setSelectedUser] = useState(assigned);
   const [newDate, setNewDate] = useState(
     deadline && fromUnixTime(deadline?.seconds)
@@ -66,13 +69,13 @@ function Todo({
   }
 
   async function deleteTodo(todo) {
-    if (confirm(`Biztos el szeretnéd törölni ezt a teendőt?`)) {
+    if (confirm(`Biztos ki szeretnéd törölni ezt a teendőt?`)) {
       try {
         await updateDoc(doc(db, 'scenes', sceneId), {
           todos: arrayRemove(todo),
           history: arrayUnion({
             type: 'todoRemoved',
-            date: new Date(),
+            date: getUnixTime(new Date()),
             user: user.displayName,
             title: data.title,
           }),
@@ -242,9 +245,9 @@ function Todo({
       await updateDoc(documentRef, {
         todos: arrayUnion({
           id: data.id,
-          title: titleRef.current?.value ? titleRef.current?.value : title,
-          description: descriptionTmp,
-          assigned: selectedUser ? selectedUser : null,
+          title: editTitle,
+          description: editDescription,
+          assigned: selectedUser?.email ? selectedUser : null,
           deadline: newDate ? newDate : null,
           stage: data.stage,
           date: date,
@@ -272,10 +275,11 @@ function Todo({
           <div className='mb-4'>
             <label className='block text-sm font-medium '>Teendő neve*</label>
             <input
+              required
               maxLength='50'
-              placeholder={title}
               type='text'
-              ref={titleRef}
+              value={editTitle}
+              onChange={() => setEditTitle(e.target.value)}
               className='input input-bordered input-primary mt-1 p-2 w-full border rounded'
             />
           </div>
@@ -285,8 +289,8 @@ function Todo({
             </label>
             <textarea
               maxLength='256'
-              ref={descriptionRef}
-              placeholder={description}
+              value={editDescription}
+              onChange={() => setEditDescription(e.target.value)}
               className='textarea textarea-bordered textarea-primary textarea-xs w-full '
             ></textarea>
           </div>

@@ -9,22 +9,10 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { useCtx } from '@/context/Context';
 
 function LeftSideBar({ children }) {
-  const { user } = useCtx();
-  const [isOpen, setIsOpen] = useState(true);
+  const { user, scenes } = useCtx();
   const [submenuOpen, setSubmenuOpen] = useState(false);
-  const [scenes, setScenes] = useState();
   const router = useRouter();
   const pathname = usePathname();
-
-  useEffect(() => {
-    if (user) {
-      const unsub = onSnapshot(doc(db, 'users', user?.email), (doc) => {
-        setScenes(doc.data()?.scenes);
-      });
-
-      return unsub;
-    }
-  }, [user]);
 
   async function logout() {
     await signOut(auth);
@@ -76,9 +64,7 @@ function LeftSideBar({ children }) {
               <Link
                 href={'/kezdolap'}
                 className={`mt-10 ${
-                  pathname === '/kezdolap'
-                    ? 'bg-secondary-focus rounded-md'
-                    : ''
+                  pathname === '/kezdolap' && 'bg-secondary-focus rounded-md'
                 }  w-full flex flex-row items-center gap-x-4 hover:bg-secondary-focus rounded-md `}
               >
                 <span className='block float-left'>
@@ -104,7 +90,7 @@ function LeftSideBar({ children }) {
               <Link
                 href={'/profil'}
                 className={`mt-5 ${
-                  pathname === '/profil' ? 'bg-secondary-focus rounded-md' : ''
+                  pathname === '/profil' && 'bg-secondary-focus rounded-md'
                 }  w-full flex flex-row items-center gap-x-4 hover:bg-secondary-focus rounded-md`}
               >
                 <span className='block float-left'>
@@ -130,9 +116,7 @@ function LeftSideBar({ children }) {
               <Link
                 href={'/feladataim'}
                 className={`mt-10 ${
-                  pathname === '/feladataim'
-                    ? 'bg-secondary-focus rounded-md'
-                    : ''
+                  pathname === '/feladataim' && 'bg-secondary-focus rounded-md'
                 }  w-full flex flex-row items-center gap-x-4 hover:bg-secondary-focus rounded-md`}
               >
                 <span className='block float-left'>
@@ -157,9 +141,7 @@ function LeftSideBar({ children }) {
               </Link>
               <div
                 className={`mt-5 ${
-                  pathname === '/szinterek'
-                    ? 'bg-secondary-focus rounded-md'
-                    : ''
+                  pathname === '/szinterek' && 'bg-secondary-focus rounded-md'
                 }  w-full flex flex-row items-center gap-x-4 hover:bg-secondary-focus rounded-md`}
               >
                 <Link
