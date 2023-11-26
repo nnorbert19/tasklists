@@ -9,7 +9,7 @@ function MyTasksComponent() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const { scenes, user } = useCtx();
+  const { scenes, userData } = useCtx();
   const [filteredTodos, setFilteredTodos] = useState();
   const createQueryString = useCallback(
     (name, value) => {
@@ -52,7 +52,7 @@ function MyTasksComponent() {
   function getTasks() {
     const allTodos = scenes?.flatMap((scene) =>
       scene.todos
-        .filter((todo) => todo?.assigned?.email == user?.email) // Filter by user if provided
+        .filter((todo) => todo?.assigned?.email == userData?.email)
         .map((todo) => ({
           scene: scene.id,
           sceneUsers: scene.users,
@@ -99,7 +99,7 @@ function MyTasksComponent() {
             sceneName={todo.sceneName}
             key={todo.id}
             data={todo.todo}
-            user={user}
+            user={userData}
             scene={todo.scene}
             administrator={todo.scene.administratorEmail}
             modApproval={todo.scene.modApproval}

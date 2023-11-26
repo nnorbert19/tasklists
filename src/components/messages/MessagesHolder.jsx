@@ -4,7 +4,7 @@ import Messages from './Messages';
 import { useEffect, useRef } from 'react';
 
 function MessagesHolder({ messagesData }) {
-  const { user } = useCtx();
+  const { userData } = useCtx();
   const messagesEndRef = useRef();
 
   const scrollToBottom = () => {
@@ -23,13 +23,13 @@ function MessagesHolder({ messagesData }) {
             <Messages
               key={message.timestamp}
               message={message}
-              sentByUser={message.senderEmail == user.email}
+              sentByUser={message.senderEmail == userData.email}
               users={messagesData.users}
             />
           ))}
           <div ref={messagesEndRef} />
         </div>
-        <NewMessage user={user} id={messagesData.id} />
+        <NewMessage user={userData} id={messagesData.id} />
       </div>
     </div>
   );

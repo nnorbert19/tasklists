@@ -62,7 +62,7 @@ function UserLister({
         userData.push({
           email: user.email,
           displayName: user.displayName,
-          photoUrl: user?.profilePic,
+          photoUrl: user?.photoUrl,
         });
         const userDocRef = doc(db, 'users', user.email);
         batch.update(userDocRef, data);

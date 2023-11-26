@@ -17,7 +17,7 @@ import Loading from '@/app/Loading';
 import { getUnixTime } from 'date-fns';
 
 function NewScene() {
-  const { user } = useCtx();
+  const { userData } = useCtx();
   const router = useRouter();
   const nameRef = useRef();
   const [isMod, setIsMod] = useState(false);
@@ -28,32 +28,32 @@ function NewScene() {
 
   useEffect(() => {
     getUsers();
-  }, [user]);
+  }, [userData]);
 
-  if (!user) {
+  if (!userData) {
     return <Loading />;
   }
 
   async function getUsers() {
     const querySnapshot = await getDocs(collection(db, 'users'));
-    let userData = [];
+    let usersData = [];
     querySnapshot.forEach((doc) => {
-      userData.push(doc.data());
+      usersData.push(doc.data());
     });
-    setUsersToFilter(userData);
+    setUsersToFilter(usersData);
   }
 
   async function updateMultipleUsersAndCreateScene(userUpdates, id) {
     try {
       const batch = writeBatch(db);
 
-      let userData = [];
+      let usersData = [];
 
       userUpdates?.forEach((user) => {
-        userData.push({
+        usersData.push({
           email: user.email,
           displayName: user.displayName,
-          photoUrl: user?.profilePic,
+          photoUrl: user?.photoUrl,
         });
         const userDocRef = doc(db, 'users', user.email);
         batch.update(userDocRef, {
@@ -64,12 +64,12 @@ function NewScene() {
       });
 
       //létrehozó
-      userData.push({
-        email: user.email,
-        displayName: user.displayName,
-        photoUrl: user?.photoURL,
+      usersData.push({
+        email: userData.email,
+        displayName: userData.displayName,
+        photoUrl: userData?.photoUrl,
       });
-      const userDocRef = doc(db, 'users', user.email);
+      const userDocRef = doc(db, 'users', userData.email);
       batch.update(userDocRef, {
         scenes: arrayUnion({
           id: id,
@@ -79,16 +79,16 @@ function NewScene() {
       const sceneData = {
         name: nameRef?.current?.value,
         id: id,
-        administratorEmail: user.email,
+        administratorEmail: userData.email,
         todos: [],
         modApproval: isMod,
         userCanCreate: isCreate,
-        users: [...userData],
+        users: [...usersData],
         history: [
           {
             type: 'created',
             date: getUnixTime(new Date()),
-            user: user.displayName,
+            user: userData.displayName,
           },
         ],
       };
@@ -96,8 +96,11 @@ function NewScene() {
       const messagesData = {
         id: id,
         messages: [],
-        users: [...userData],
+        users: [...usersData],
       };
+
+      console.log(messagesData);
+      console.log(sceneData);
 
       const messagesDocRef = doc(db, 'messages', id);
       batch.set(messagesDocRef, messagesData);

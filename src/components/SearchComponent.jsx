@@ -3,7 +3,7 @@ import { useCtx } from '@/context/Context';
 import { useState } from 'react';
 
 const SearchComponent = (props) => {
-  const { user } = useCtx();
+  const { userData } = useCtx();
   const users = props?.filterFrom;
 
   const [filteredUsers, setFilteredUsers] = useState(props?.filterFrom);
@@ -33,7 +33,7 @@ const SearchComponent = (props) => {
 
   const handleToggleUser = (user) => {
     if (props?.onlyOne) {
-      if (selectedUsers[0]?.email == user?.email) {
+      if (selectedUsers[0]?.email == userData?.email) {
         setSelectedUsers([]);
         props.setUsers([]);
       } else {
@@ -63,7 +63,7 @@ const SearchComponent = (props) => {
   };
 
   const filteredUsersToDisplay = filteredUsers?.filter(
-    (filteredUser) => filteredUser.email !== user?.email
+    (filteredUser) => filteredUser.email !== userData?.email
   );
 
   return (

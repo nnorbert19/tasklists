@@ -6,7 +6,7 @@ const Context = createContext();
 
 export function CtxProvider({ children }) {
   const [user, setUser] = useState(null);
-  const [userDbData, setUserDbData] = useState();
+  const [userData, setUserData] = useState();
   const [scenes, setScenes] = useState();
   const [currentScene, setCurrentScene] = useState();
   const [sceneId, setSceneId] = useState();
@@ -16,7 +16,7 @@ export function CtxProvider({ children }) {
       setUser(user);
       if (user) {
         const unsubscribe = onSnapshot(doc(db, 'users', user?.email), (doc) => {
-          setUserDbData(doc.data());
+          setUserData(doc.data());
         });
         return () => unsubscribe();
       }
@@ -25,9 +25,9 @@ export function CtxProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    if (user && userDbData?.scenes?.length >= 1) {
+    if (user && userData?.scenes?.length >= 1) {
       const userScenes = [];
-      userDbData?.scenes?.forEach((scene) => {
+      userData?.scenes?.forEach((scene) => {
         userScenes.push(scene.id);
       });
       const q = query(collection(db, 'scenes'), where('id', 'in', userScenes));
@@ -42,7 +42,7 @@ export function CtxProvider({ children }) {
         unsubscribe();
       };
     }
-  }, [user, userDbData]);
+  }, [user, userData]);
 
   useEffect(() => {
     if (scenes && sceneId) {
@@ -68,7 +68,7 @@ export function CtxProvider({ children }) {
 
   return (
     <Context.Provider
-      value={{ user, currentScene, scenes, getScene, setSceneId }}
+      value={{ user, userData, currentScene, scenes, getScene, setSceneId }}
     >
       {children}
     </Context.Provider>

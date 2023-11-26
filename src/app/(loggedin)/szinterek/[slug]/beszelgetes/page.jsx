@@ -8,7 +8,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 function Page() {
-  const { user, setSceneId, currentScene } = useCtx();
+  const { userData, setSceneId, currentScene } = useCtx();
   const pathname = usePathname();
   const parts = pathname.split('/');
   const id = parts[parts.length - 2];
@@ -17,7 +17,7 @@ function Page() {
 
   useEffect(() => {
     setSceneId(id);
-  }, [user]);
+  }, [userData]);
 
   useEffect(() => {
     const unsubscribe = onSnapshot(doc(db, 'messages', id), (doc) => {

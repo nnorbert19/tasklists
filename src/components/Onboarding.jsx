@@ -22,7 +22,7 @@ function Onboarding({ user }) {
 
   const [loading, setLoading] = useState(false);
   const [disabled, setDisabled] = useState(true);
-  const [name, setName] = useState(user?.name);
+  const [name, setName] = useState(user?.name ? user.name : '');
   const [photoURL, setPhotoUrl] = useState(
     user?.picture ? user?.picture : null
   );
@@ -65,7 +65,10 @@ function Onboarding({ user }) {
       return;
     }
 
-    const storageRef = ref(storage, `profilepictures/${user.email}/profilepic`);
+    const storageRef = ref(
+      storage,
+      `profilepictures/${user?.email}/profilepic`
+    );
     const uploadTask = uploadBytesResumable(storageRef, file);
 
     uploadTask.on(
@@ -103,7 +106,7 @@ function Onboarding({ user }) {
 
   async function createUserInDb() {
     const docData = {
-      profilePic: photoURL,
+      photoUrl: photoURL,
       email: user.email,
       scenes: [],
       displayName: name,

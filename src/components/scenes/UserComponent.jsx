@@ -9,7 +9,7 @@ function UserComponent({ user, withEmail }) {
   return (
     <div className='flex items-center space-x-2'>
       <div className='flex-shrink-0 w-8 h-8'>
-        <Avatar photoUrl={currentUser.photoUrl} />
+        <Avatar photoUrl={currentUser?.photoUrl} />
       </div>
       <div className='flex-1 min-w-0'>
         <p

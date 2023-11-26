@@ -11,7 +11,7 @@ import Loading from '@/app/Loading';
 import SceneNotFound from '@/components/scenes/SceneNotFound';
 
 function Page() {
-  const { user, setSceneId, currentScene } = useCtx();
+  const { userData, setSceneId, currentScene } = useCtx();
   const pathname = usePathname();
   const parts = pathname.split('/');
   const id = parts[parts.length - 1];
@@ -20,7 +20,7 @@ function Page() {
   useEffect(() => {
     setSceneId(id);
     setLoading(false);
-  }, [user]);
+  }, [userData]);
 
   return (
     <>
@@ -29,10 +29,10 @@ function Page() {
         {!loading && currentScene && (
           <div className='content-center'>
             {(currentScene.userCanCreate ||
-              currentScene.administratorEmail == user.email) && (
-              <NewTodo scene={currentScene} user={user} />
+              currentScene.administratorEmail == userData.email) && (
+              <NewTodo scene={currentScene} user={userData} />
             )}
-            <TodoHolder scene={currentScene} user={user} />
+            <TodoHolder scene={currentScene} user={userData} />
           </div>
         )}
         {!loading && !currentScene && <SceneNotFound />}

@@ -79,7 +79,7 @@ function Registration() {
   }
 
   return (
-    <div className='card w-96 bg-base-200 shadow-xl'>
+    <div className='card w-96 bg-base-100 shadow-xl'>
       <div className='card-body gap-0'>
         <h2 className='card-title justify-center text-4xl mb-5'>
           Regisztráció

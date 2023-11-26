@@ -9,7 +9,7 @@ import { doc, onSnapshot } from 'firebase/firestore';
 import { useCtx } from '@/context/Context';
 
 function LeftSideBar({ children }) {
-  const { user, scenes } = useCtx();
+  const { userData, scenes } = useCtx();
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
@@ -23,7 +23,6 @@ function LeftSideBar({ children }) {
       router.push('/bejelentkezes');
     }
   }
-  //if (!user) return;
 
   return (
     <>
@@ -58,7 +57,7 @@ function LeftSideBar({ children }) {
             <div className='flex justify-start items-center flex-col overflow-hidden font-medium'>
               <div className={`w-24 duration-500 ease-in-out`}>
                 <Link href={'/profil'}>
-                  <Avatar photoUrl={user?.photoURL} />
+                  <Avatar photoUrl={userData?.photoUrl} />
                 </Link>
               </div>
               <Link
