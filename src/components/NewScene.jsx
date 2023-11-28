@@ -111,7 +111,6 @@ function NewScene() {
       await batch.commit();
 
       toast.success('Színtér létrehozva');
-      setLoading(false);
       router.push(`/szinterek/${id}`);
     } catch (error) {
       console.error(error.message);

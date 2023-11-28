@@ -94,7 +94,7 @@ export default function Login() {
         <form onSubmit={submitForm}>
           <div className='form-control w-full max-w-xs'>
             <label className='label'>
-              <span className='label-text'>E-mail cím</span>
+              <span className='label-text'>E-mail cím:</span>
             </label>
             <input
               required
@@ -108,7 +108,7 @@ export default function Login() {
           </div>
           <div className='form-control w-full max-w-xs'>
             <label className='label'>
-              <span className='label-text'>Jelszó</span>
+              <span className='label-text'>Jelszó:</span>
             </label>
             <input
               required

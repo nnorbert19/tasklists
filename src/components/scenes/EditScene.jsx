@@ -28,7 +28,7 @@ function EditScene({ currentScene }) {
   ]);
 
   async function deleteScene() {
-    if (confirm(`Biztos ki szeretnéd törölni ezt a teendőt?`)) {
+    if (confirm(`Biztos ki szeretnéd törölni ezt a színteret?`)) {
       const batch = writeBatch(db);
       try {
         batch.delete(doc(db, 'scenes', currentScene.id));
@@ -129,7 +129,7 @@ function EditScene({ currentScene }) {
             className='btn-xs mt-1 text-blue-700 hover:cursor-pointer'
             onClick={() => deleteScene()}
           >
-            Teendő törlése
+            Színtér törlése
           </label>
         </div>
         <form method='dialog' className='modal-backdrop'>

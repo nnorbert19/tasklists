@@ -1,4 +1,5 @@
 import { db } from '@/lib/firebase';
+import { getUnixTime } from 'date-fns';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { useRef, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -14,7 +15,7 @@ function NewMessage({ user, id }) {
       messages: arrayUnion({
         message: messageRef.current.value,
         senderEmail: user.email,
-        timestamp: new Date(),
+        timestamp: getUnixTime(new Date()),
       }),
     };
     const messagesDocRef = doc(db, 'messages', id);

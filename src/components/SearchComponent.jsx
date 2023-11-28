@@ -120,13 +120,13 @@ const SearchComponent = (props) => {
         </label>
         <ul className='max-h-24 min-h-6 border-primary p-1 overflow-y-auto overflow-hidden border rounded'>
           {selectedUsers?.map((user) => (
-            <li key={user.email} className='flex justify-between items-center'>
+            <li key={user?.email} className='flex justify-between items-center'>
               <div className='flex flex-col'>
                 <p className='text-sm font-semibold truncate max-w-[200px]'>
-                  {user.displayName}
+                  {user?.displayName}
                 </p>
                 <p className='text-xs text-gray-500 truncate max-w-[200px]'>
-                  {user.email}
+                  {user?.email}
                 </p>
               </div>
               <input

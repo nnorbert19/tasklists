@@ -1,5 +1,7 @@
+import ForgottenPassword from '@/components/auth/ForgottenPassword';
+
 function page() {
-  return <div>Enter</div>;
+  return <ForgottenPassword />;
 }
 
 export default page;

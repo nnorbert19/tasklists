@@ -106,6 +106,7 @@ function Onboarding({ user }) {
 
   async function createUserInDb() {
     const docData = {
+      uid: user.uid,
       photoUrl: photoURL,
       email: user.email,
       scenes: [],

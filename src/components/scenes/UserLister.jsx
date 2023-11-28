@@ -2,13 +2,13 @@ import UserComponent from './UserComponent';
 import Avatar from '../user/Avatar';
 import { db } from '@/lib/firebase';
 import { toast } from 'react-toastify';
+import { getUnixTime } from 'date-fns';
 import {
   arrayRemove,
   arrayUnion,
   collection,
   doc,
   getDocs,
-  updateDoc,
   writeBatch,
 } from 'firebase/firestore';
 import SearchComponent from '../SearchComponent';
@@ -51,7 +51,6 @@ function UserLister({
 
       const data = {
         scenes: arrayUnion({
-          name: sceneName,
           id: sceneId,
         }),
       };
@@ -72,12 +71,14 @@ function UserLister({
         users: arrayUnion(...userData),
         history: arrayUnion({
           type: 'usersAdded',
-          date: new Date(),
+          date: getUnixTime(new Date()),
           user: displayName,
           addedUsers: userData,
         }),
       };
+      const messagesDocRef = doc(db, 'messages', sceneId);
 
+      batch.update(messagesDocRef, { users: arrayUnion(...userData) });
       const sceneDocRef = doc(db, 'scenes', sceneId);
       batch.update(sceneDocRef, sceneData);
 
@@ -101,9 +102,18 @@ function UserLister({
       )
     ) {
       try {
-        await updateDoc(doc(db, 'scenes', sceneId), {
+        const batch = writeBatch(db);
+        batch.update(doc(db, 'messages', sceneId), {
           users: arrayRemove(user),
         });
+        batch.update(doc(db, 'scenes', sceneId), {
+          users: arrayRemove(user),
+        });
+        batch.update(doc(db, 'users', user.email), {
+          scenes: arrayRemove({ id: sceneId }),
+        });
+        await batch.commit();
+
         toast.success('Felhasználó sikeresen eltávolítva.');
       } catch (error) {
         console.error(error.message);

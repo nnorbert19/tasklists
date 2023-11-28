@@ -7,8 +7,8 @@ import {
 } from 'firebase/storage';
 import { useCtx } from '@/context/Context';
 import Avatar from './Avatar';
-import { getAuth } from 'firebase/auth';
-import { useRef, useState } from 'react';
+import { getAuth, updatePassword, updateProfile } from 'firebase/auth';
+import { useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import { arrayRemove, arrayUnion, doc, writeBatch } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
@@ -19,10 +19,18 @@ function Profile() {
   const [displayName, setDisplayName] = useState(
     userData ? userData.displayName : ''
   );
+  const [password, setPassword] = useState('');
+  const [password2, setPassword2] = useState('');
+  const [disabled, setDisabled] = useState(false);
   const auth = getAuth();
+  const user = auth.currentUser;
   const toastId = useRef(null);
   const fileUpload = useRef();
   const storage = getStorage();
+
+  useEffect(() => {
+    setDisplayName(userData?.displayName);
+  }, [userData]);
 
   const fileCheck = (fileElement) => {
     if (!fileElement) {
@@ -46,6 +54,7 @@ function Profile() {
   };
 
   function fileChanged() {
+    setDisabled(true);
     let fileElement = fileUpload.current;
     let file;
     try {
@@ -83,8 +92,6 @@ function Profile() {
         }
       },
       () => {
-        toast.dismiss(toastId.current);
-        toast.success('Kép feltöltése sikeres!');
         getDownloadURL(uploadTask.snapshot.ref).then(async (downloadURL) => {
           try {
             const batch = writeBatch(db);
@@ -128,20 +135,29 @@ function Profile() {
             });
 
             batch.update;
+            updateProfile(auth.currentUser, {
+              photoURL: downloadURL,
+            }).catch((error) => {
+              console.error(error.message);
+            });
             await batch.commit();
+            toast.dismiss(toastId.current);
+            toast.success('Kép feltöltése sikeres!');
+            setDisabled(false);
           } catch (error) {
+            setDisabled(false);
+            toast.error('Hiba történt!');
+
             console.error(error.message);
           }
         });
-        /*getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          setPhotoUrl(downloadURL);
-        });*/
       }
     );
   }
 
   async function changeNameFn(e) {
     e.preventDefault();
+    setDisabled(true);
     if (displayName == userData.displayName) return;
     try {
       const batch = writeBatch(db);
@@ -186,12 +202,44 @@ function Profile() {
 
       batch.update;
       await batch.commit();
+      updateProfile(auth.currentUser, {
+        displayName: displayName,
+      }).catch((error) => {
+        toast.error('Hiba történt!');
+        console.error(error.message);
+      });
       toast.success('Sikeres név módosítás!');
+      setDisabled(false);
     } catch (error) {
       toast.error('Hiba történt!');
+      setDisabled(false);
 
       console.error(error.message);
     }
+  }
+
+  function changePasswordFn(e) {
+    e.preventDefault();
+    if (password !== password2) {
+      toast.error('A jelszavak nem egyeznek!');
+      return;
+    }
+    if (password.length < 6) {
+      toast.error('A jelszónak legalább 6 karakterből kell állnia!');
+      return;
+    }
+
+    updatePassword(user, password)
+      .then(() => {
+        // Update successful.
+        toast.success('Sikeres jelszó változtatás!');
+      })
+      .catch((error) => {
+        toast.error('Hiba történt');
+        console.error(error.message);
+        // An error ocurred
+        // ...
+      });
   }
 
   const profilePicUpload = (
@@ -239,6 +287,41 @@ function Profile() {
   const changePassword = (
     <div className='flex flex-col justify-center items-center'>
       <h3 className='pb-2 text-xl font-medium'>Jelszó megváltoztatása</h3>
+      <form onSubmit={changePasswordFn}>
+        <div className='form-control w-full max-w-xs'>
+          <label className='label'>
+            <span className='label-text'>Új jelszó:</span>
+          </label>
+          <input
+            required
+            type='password'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className='input input-bordered input-primary mt-1 p-2 w-full border rounded'
+          />
+        </div>
+        <div className='form-control w-full max-w-xs'>
+          <label className='label'>
+            <span className='label-text'>Új jelszó:</span>
+          </label>
+          <input
+            required
+            type='password'
+            value={password2}
+            onChange={(e) => setPassword2(e.target.value)}
+            className='input input-bordered input-primary mt-1 p-2 w-full border rounded'
+          />
+        </div>
+        <div className='p-2 card-actions justify-center'>
+          <button
+            disabled={disabled}
+            type='submit'
+            className='btn btn-primary btn-xs'
+          >
+            Mentés
+          </button>
+        </div>
+      </form>
     </div>
   );
 
@@ -255,7 +338,7 @@ function Profile() {
         />
         <div className='p-2 card-actions justify-center'>
           <button
-            disabled={displayName == userData?.displayName}
+            disabled={disabled}
             type='submit'
             className='btn btn-primary btn-xs'
           >
@@ -265,6 +348,7 @@ function Profile() {
       </form>
     </div>
   );
+
   return (
     <>
       <dialog id='profileEditModal' className='modal'>

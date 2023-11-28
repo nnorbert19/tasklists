@@ -30,7 +30,7 @@ function NewTodo({ scene, user }) {
         assigned: selectedUser?.email ? selectedUser : null,
         deadline: date ? date : null,
         stage: 'toDo',
-        date: new Date(),
+        date: getUnixTime(new Date()),
       }),
       history: arrayUnion({
         type: 'todoCreate',

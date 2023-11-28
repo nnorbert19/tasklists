@@ -7,8 +7,8 @@ import UserLister from '../scenes/UserLister';
 import EditScene from '../scenes/EditScene';
 
 function RightSideBar({ children }) {
-  const { currentScene, sceneLoading, user } = useCtx();
-  const userIsAdmin = currentScene?.administratorEmail == user?.email;
+  const { currentScene, sceneLoading, userData } = useCtx();
+  const userIsAdmin = currentScene?.administratorEmail == userData?.email;
   const router = useRouter();
 
   const pathname = usePathname();
@@ -85,9 +85,9 @@ function RightSideBar({ children }) {
                 <UserLister
                   users={currentScene?.users}
                   userIsAdmin={userIsAdmin}
-                  userEmail={user?.email}
+                  userEmail={userData?.email}
                   sceneId={currentScene?.id}
-                  displayName={user?.displayName}
+                  displayName={userData?.displayName}
                   sceneName={currentScene?.name}
                 />
               </li>

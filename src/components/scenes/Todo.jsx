@@ -26,7 +26,9 @@ function Todo({
 
   const sceneId = scene?.id ? scene.id : scene;
   const [editTitle, setEditTitle] = useState(title);
-  const [editDescription, setEditDescription] = useState(description);
+  const [editDescription, setEditDescription] = useState(
+    description ? description : ''
+  );
   const [isEditing, setIsEditing] = useState(false);
   const [selectedUser, setSelectedUser] = useState(assigned);
   const [newDate, setNewDate] = useState(
@@ -108,7 +110,7 @@ function Todo({
         }),
         history: arrayUnion({
           type: 'todoMoved',
-          date: new Date(),
+          date: getUnixTime(new Date()),
           user: user.displayName,
           title: data.title,
           to: stage,
@@ -179,7 +181,7 @@ function Todo({
           <div className='w-40'>
             <p className='text-xs font-medium text-gray-500'>létrehozva:</p>
             <p className='text-xs font-medium italic text-gray-500'>
-              {format(fromUnixTime(date.seconds), 'yyyy/MM/dd HH:MM')}
+              {format(fromUnixTime(date), 'yyyy/MM/dd HH:MM')}
             </p>
           </div>
           <div className='w-30'>
@@ -257,7 +259,7 @@ function Todo({
         }),
         history: arrayUnion({
           type: 'todoUpdated',
-          date: new Date(),
+          date: getUnixTime(new Date()),
           user: user.displayName,
           title: title,
         }),
@@ -298,7 +300,7 @@ function Todo({
             ></textarea>
           </div>
           <SearchComponent
-            selectedUser={selectedUser}
+            selectedUser={selectedUser ? [selectedUser] : undefined}
             setUsers={setSelectedUser}
             onlyOne
             filterFrom={scene?.users}

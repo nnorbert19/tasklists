@@ -67,7 +67,7 @@ function MyTasksComponent() {
   }
 
   return (
-    <div className='max-w-3xl w-full max-h-[80vh] overflow-auto bg-white p-2 rounded-lg shadow-xl flex flex-col items-center'>
+    <div className='max-w-3xl w-full max-h-[80vh] overflow-auto bg-base-100 p-2 rounded-lg shadow-xl flex flex-col items-center'>
       <h3 className='text-xl font-medium pb-4'>Teendőim</h3>
       <div className='flex flex-col items-center'>
         Rendezés:

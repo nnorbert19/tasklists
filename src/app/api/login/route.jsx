@@ -9,7 +9,17 @@ export async function POST() {
   const authorization = headers().get('Authorization');
   if (authorization?.startsWith('Bearer ')) {
     const idToken = authorization.split('Bearer ')[1];
-    const decodedToken = await auth().verifyIdToken(idToken);
+    const decodedToken = await auth()
+      .verifyIdToken(idToken)
+      .catch(() => {
+        const options = {
+          name: 'session',
+          value: '',
+          maxAge: -1,
+        };
+
+        cookies().set(options);
+      });
 
     if (decodedToken) {
       //session cookie
@@ -39,7 +49,17 @@ export async function GET() {
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }
 
-  const decodedClaims = await auth().verifySessionCookie(session, true);
+  const decodedClaims = await auth()
+    .verifySessionCookie(session, true)
+    .catch(() => {
+      const options = {
+        name: 'session',
+        value: '',
+        maxAge: -1,
+      };
+
+      cookies().set(options);
+    });
 
   if (!decodedClaims) {
     return NextResponse.json({ isLogged: false }, { status: 401 });
