@@ -21,17 +21,17 @@ function HistoryLister({ history }) {
           )}.`;
           break;
         case 'todoCreate':
-          text = `${event.user} létrehozta a(z) ${event.title} nevű teendőt.`;
+          text = `${event.user} létrehozta a(z) ${event.title} nevű feladatot.`;
           break;
 
         case 'todoUpdated':
-          text = `${event.user} modosította a(z) ${event.title} nevű teendőt.`;
+          text = `${event.user} modosította a(z) ${event.title} nevű feladatot.`;
           break;
         case 'todoRemoved':
-          text = `${event.user} törölte a(z) ${event.title} nevű teendőt.`;
+          text = `${event.user} törölte a(z) ${event.title} nevű feladatot.`;
           break;
         case 'todoMoved':
-          text = `${event.user} áthelyezte a(z) ${event.title} nevű teendőt a(z) ${event.to} állapotba.`;
+          text = `${event.user} áthelyezte a(z) ${event.title} nevű feladatot a(z) ${event.to} állapotba.`;
           break;
         default:
           break;

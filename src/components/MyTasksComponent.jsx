@@ -68,7 +68,7 @@ function MyTasksComponent() {
 
   return (
     <div className='max-w-3xl w-full max-h-[80vh] overflow-auto bg-base-100 p-2 rounded-lg shadow-xl flex flex-col items-center'>
-      <h3 className='text-xl font-medium pb-4'>Teendőim</h3>
+      <h3 className='text-xl font-medium pb-4'>Feladataim</h3>
       <div className='flex flex-col items-center'>
         Rendezés:
         <ul className='menu menu-horizontal gap-1 bg-base-200 rounded-box'>
@@ -91,7 +91,7 @@ function MyTasksComponent() {
           </li>
         </ul>
       </div>
-      {!filteredTodos && <p>Nincs megjeleníthető teendő!</p>}
+      {!filteredTodos && <p>Nincs megjeleníthető feladat!</p>}
       <div className='flex flex-row flex-wrap p-2 gap-2'>
         {filteredTodos?.map((todo) => (
           <Todo

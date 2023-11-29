@@ -18,7 +18,7 @@
 }
 
 .Toastify__toast-container {
-  z-index: 200000 !important;
+  z-index: 200001 !important;
 }
 
 ::-webkit-scrollbar {

@@ -48,7 +48,7 @@ function NewTodo({ scene, user }) {
       toast.error('Hiba történt');
       console.error(error.message);
     }
-    toast.success('Teendő sikeresen hozzáadva!');
+    toast.success('Feladat sikeresen hozzáadva!');
 
     setDate();
     setSelectedUser([]);
@@ -64,16 +64,18 @@ function NewTodo({ scene, user }) {
           className='btn btn-primary'
           onClick={() => document.getElementById('newTodoModal').showModal()}
         >
-          Teendő hozzáadása
+          Feladat hozzáadása
         </button>
       </div>
       {/*Modal */}
       <dialog id='newTodoModal' className='modal'>
         <div className='modal-box'>
           <form onSubmit={submitForm}>
-            <h1 className='text-2xl font-bold mb-4'>Teendő létrehozása</h1>
+            <h1 className='text-2xl font-bold mb-4'>Feladat létrehozása</h1>
             <div className='mb-4'>
-              <label className='block text-sm font-medium '>Teendő neve*</label>
+              <label className='block text-sm font-medium '>
+                Feladat neve*
+              </label>
               <input
                 maxLength='50'
                 placeholder='Maximum 50 karakter.'
@@ -90,7 +92,7 @@ function NewTodo({ scene, user }) {
               <textarea
                 maxLength='256'
                 ref={descriptionRef}
-                placeholder='Teendő részletes leírása, maximum 256 karakter.'
+                placeholder='Feladat részletes leírása, maximum 256 karakter.'
                 className='textarea textarea-bordered textarea-primary textarea-xs w-full '
               ></textarea>
             </div>

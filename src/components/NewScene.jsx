@@ -99,9 +99,6 @@ function NewScene() {
         users: [...usersData],
       };
 
-      console.log(messagesData);
-      console.log(sceneData);
-
       const messagesDocRef = doc(db, 'messages', id);
       batch.set(messagesDocRef, messagesData);
 
@@ -160,7 +157,7 @@ function NewScene() {
               className='checkbox checkbox-primary'
             />
             <span className='label-text pl-5'>
-              Tagok teendők létrehozására való joga
+              Tagok feladat létrehozására való joga
             </span>
           </label>
         </div>

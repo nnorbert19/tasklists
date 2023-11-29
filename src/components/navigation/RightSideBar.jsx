@@ -68,7 +68,7 @@ function RightSideBar({ children }) {
                     className='btn btn-neutral'
                     onClick={() => router.push(`/szinterek/${id}`)}
                   >
-                    Teendők
+                    Feladatok
                   </button>
                 </li>
               ) : (

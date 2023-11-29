@@ -29,7 +29,7 @@ function ScenesLister() {
   }
 
   async function deleteScene(scene) {
-    if (confirm(`Biztos ki szeretnéd törölni ezt a teendőt?`)) {
+    if (confirm(`Biztos ki szeretnéd törölni ezt a feladatot?`)) {
       const batch = writeBatch(db);
       try {
         batch.delete(doc(db, 'scenes', scene.id));

@@ -70,7 +70,7 @@ function Todo({
   }
 
   async function deleteTodo(todo) {
-    if (confirm(`Biztos ki szeretnéd törölni ezt a teendőt?`)) {
+    if (confirm(`Biztos ki szeretnéd törölni ezt a Feladatot?`)) {
       try {
         await updateDoc(doc(db, 'scenes', sceneId), {
           todos: arrayRemove(todo),
@@ -81,7 +81,7 @@ function Todo({
             title: data.title,
           }),
         });
-        toast.success('Teendő sikeresen törölve!');
+        toast.success('Feladat sikeresen törölve!');
       } catch (error) {
         console.error(error.message);
         toast.error('Hiba történt!');
@@ -121,7 +121,7 @@ function Todo({
       console.error(error.message);
     }
 
-    toast.success('Teendő sikeresen mozgatva');
+    toast.success('Feladat sikeresen mozgatva');
   }
 
   function getMoveList() {
@@ -226,7 +226,7 @@ function Todo({
             className='btn-xs mt-1 text-blue-700 hover:cursor-pointer'
             onClick={() => deleteTodo(data)}
           >
-            Teendő törlése
+            Feladat törlése
           </label>
         )}
       </div>
@@ -269,16 +269,16 @@ function Todo({
       console.error(error.message);
     }
 
-    toast.success('Teendő sikeresen módosítva');
+    toast.success('Feladat sikeresen módosítva');
   }
 
   function editingModalUI() {
     return (
       <div className='flex flex-col items-center text-center min-h-52'>
         <form onSubmit={submitForm}>
-          <h1 className='text-2xl font-bold mb-4'>Teendő módosítása</h1>
+          <h1 className='text-2xl font-bold mb-4'>Feladat módosítása</h1>
           <div className='mb-4'>
-            <label className='block text-sm font-medium '>Teendő neve*</label>
+            <label className='block text-sm font-medium '>Feladat neve*</label>
             <input
               required
               maxLength='50'

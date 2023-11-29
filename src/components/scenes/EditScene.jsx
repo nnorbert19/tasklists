@@ -16,8 +16,11 @@ function EditScene({ currentScene }) {
       isMod !== currentScene?.modApproval ||
       isCreate !== currentScene?.userCanCreate ||
       title !== currentScene?.name
-    )
+    ) {
       setDisabled(false);
+    } else {
+      setDisabled(true);
+    }
   }, [
     isMod,
     isCreate,
@@ -111,7 +114,7 @@ function EditScene({ currentScene }) {
                   className='checkbox checkbox-primary'
                 />
                 <span className='label-text pl-5'>
-                  Tagok teendők létrehozására való joga
+                  Tagok feladatok létrehozására való joga
                 </span>
               </label>
             </div>
