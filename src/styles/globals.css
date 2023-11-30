@@ -17,10 +17,6 @@
   --toastify-icon-color-success: theme(colors.success);
 }
 
-.Toastify__toast-container {
-  z-index: 200001 !important;
-}
-
 ::-webkit-scrollbar {
   width: 10px;
 }
