@@ -1,6 +1,5 @@
 'use client';
 
-import Loading from '@/app/Loading';
 import { useState } from 'react';
 import UserLister from './UserLister';
 import ScenesLister from './ScenesLister';
