@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import Loading from '@/app/Loading';
 import { format, fromUnixTime } from 'date-fns';
 import { useEffect, useState } from 'react';

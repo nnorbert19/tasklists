@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import { useCtx } from '@/context/Context';
 import { useSearchParams } from 'next/navigation';
