@@ -14,6 +14,13 @@ export async function middleware(request) {
   });
 
   if (responseAPI.status !== 200) {
+    const options = {
+      name: 'session',
+      value: '',
+      maxAge: -1,
+    };
+
+    cookies().set(options);
     return NextResponse.redirect(new URL('/bejelentkezes', request.url));
   }
 

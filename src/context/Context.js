@@ -68,7 +68,7 @@ export function CtxProvider({ children }) {
 
   return (
     <Context.Provider
-      value={{ user, userData, currentScene, scenes, getScene, setSceneId }}
+      value={{ user, userData, currentScene, scenes, setSceneId }}
     >
       {children}
     </Context.Provider>
