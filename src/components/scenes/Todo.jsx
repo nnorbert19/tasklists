@@ -212,7 +212,7 @@ function Todo({
               {getMoveList()}
             </ul>
           </details>
-          {userCanCreate && (
+          {(userCanCreate || administrator == user?.email) && (
             <button
               className='btn btn-secondary btn-xs mt-2'
               onClick={() => setIsEditing(true)}

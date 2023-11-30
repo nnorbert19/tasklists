@@ -22,5 +22,12 @@ export async function middleware(request) {
 
 //Add your protected routes
 export const config = {
-  matcher: ['/kezdolap'],
+  matcher: [
+    '/kezdolap',
+    '/elso-lepesek',
+    '/admin',
+    '/profil',
+    '/szinter-letrehozasa',
+    '/szinterek/:path*',
+  ],
 };

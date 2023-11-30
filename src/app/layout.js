@@ -14,13 +14,13 @@ export default function RootLayout({ children }) {
   return (
     <html className='h-full'>
       <body className='h-full w-full flex'>
+        <ToastContainerWrapper />
         <Providers>
           <Suspense fallback={<Loading />}>
             <div className='h-full w-full flex items-center justify-center bg-base-200'>
               {children}
             </div>
           </Suspense>
-          <ToastContainerWrapper />
         </Providers>
       </body>
     </html>

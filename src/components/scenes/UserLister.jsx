@@ -114,7 +114,9 @@ function UserLister({
         });
         await batch.commit();
 
-        toast.success('Felhasználó sikeresen eltávolítva.');
+        toast.success('Felhasználó sikeresen eltávolítva.', {
+          autoClose: 500000,
+        });
       } catch (error) {
         console.error(error.message);
         toast.error('Hiba történt.');
