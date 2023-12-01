@@ -74,11 +74,3 @@ export async function GET() {
 
   return NextResponse.json({ isLogged: true }, { status: 200 });
 }
-
-/*
-
-Tisztelt dr. Alvarez Gil Rafael Pedro!
-
-
-
-Elnézését kérem, amiért nem jelentkeztem, kicsit elszaladt az idő. A szakdolgozat */
