@@ -79,7 +79,7 @@ function EditScene({ currentScene }) {
       <dialog id='editSceneModal' className='modal'>
         <div className='modal-box'>
           <form onSubmit={submitForm}>
-            <h1 className='text-2xl font-bold mb-4'>Színtér lmódosítása</h1>
+            <h1 className='text-2xl font-bold mb-4'>Színtér módosítása</h1>
             <div className='mb-4'>
               <label className='block text-sm font-medium '>
                 Színtér neve*

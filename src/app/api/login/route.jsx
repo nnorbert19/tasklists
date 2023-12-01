@@ -62,6 +62,13 @@ export async function GET() {
     });
 
   if (!decodedClaims) {
+    const options = {
+      name: 'session',
+      value: '',
+      maxAge: -1,
+    };
+
+    cookies().set(options);
     return NextResponse.json({ isLogged: false }, { status: 401 });
   }
 

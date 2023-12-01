@@ -43,6 +43,7 @@ function UserLister({
       userData.push(doc.data());
     });
     setUsersToFilter(userData);
+    console.log(userData);
   }
 
   async function addUsers() {

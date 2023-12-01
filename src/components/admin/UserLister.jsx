@@ -11,9 +11,12 @@ import { useEffect, useState } from 'react';
 import Avatar from '../user/Avatar';
 import Loading from '@/app/Loading';
 import { toast } from 'react-toastify';
+import { useCtx } from '@/context/Context';
 
 function UserLister() {
   const auth = getAuth();
+  const { userData } = useCtx();
+
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState();
 
@@ -133,46 +136,52 @@ function UserLister() {
                   {user.scenes?.length ? user.scenes.length : '0'}
                 </td>
                 <td className='flex gap-4 mr-2'>
-                  <div
-                    className='tooltip hover:cursor-pointer'
-                    data-tip='Jelszóemlékeztető küldése'
-                    onClick={() => sendEmail(user)}
-                  >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth={1.5}
-                      stroke='currentColor'
-                      className='w-6 h-6'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75'
-                      />
-                    </svg>
-                  </div>
-                  <div
-                    className='tooltip hover:cursor-pointer'
-                    data-tip='Felhasználó törlése'
-                    onClick={() => deleteUser(user)}
-                  >
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth={1.5}
-                      stroke='currentColor '
-                      className='w-6 h-6'
-                    >
-                      <path
-                        strokeLinecap='round'
-                        strokeLinejoin='round'
-                        d='M6 18L18 6M6 6l12 12'
-                      />
-                    </svg>
-                  </div>
+                  {user.email == userData.email ? (
+                    <></>
+                  ) : (
+                    <>
+                      <div
+                        className='tooltip hover:cursor-pointer'
+                        data-tip='Jelszóemlékeztető küldése'
+                        onClick={() => sendEmail(user)}
+                      >
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          fill='none'
+                          viewBox='0 0 24 24'
+                          strokeWidth={1.5}
+                          stroke='currentColor'
+                          className='w-6 h-6'
+                        >
+                          <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            d='M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75'
+                          />
+                        </svg>
+                      </div>
+                      <div
+                        className='tooltip hover:cursor-pointer'
+                        data-tip='Felhasználó törlése'
+                        onClick={() => deleteUser(user)}
+                      >
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          fill='none'
+                          viewBox='0 0 24 24'
+                          strokeWidth={1.5}
+                          stroke='currentColor '
+                          className='w-6 h-6'
+                        >
+                          <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            d='M6 18L18 6M6 6l12 12'
+                          />
+                        </svg>
+                      </div>
+                    </>
+                  )}
                 </td>
               </tr>
             ))}

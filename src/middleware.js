@@ -1,10 +1,12 @@
+'use server';
 import { NextResponse } from 'next/server';
+import { cookies } from 'next/headers';
 
-export async function middleware(request) {
+export async function middleware(request, response) {
   const session = request.cookies.get('session');
 
   if (!session) {
-    return NextResponse.redirect(new URL('/bejelentkezes', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
   const responseAPI = await fetch(`${request.nextUrl.origin}/api/login`, {
@@ -14,14 +16,17 @@ export async function middleware(request) {
   });
 
   if (responseAPI.status !== 200) {
+    const response = NextResponse.next();
+
     const options = {
       name: 'session',
       value: '',
       maxAge: -1,
     };
+    //request.cookies.delete('session')
+    response.cookies.set(options);
 
-    cookies().set(options);
-    return NextResponse.redirect(new URL('/bejelentkezes', request.url));
+    return NextResponse.redirect(new URL('/', request.url));
   }
 
   return NextResponse.next();

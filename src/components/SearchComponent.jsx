@@ -15,13 +15,15 @@ const SearchComponent = (props) => {
 
   if (!users) return <Loading />;
 
+  console.log(props?.filterFrom);
+
   const handleSearch = (event) => {
     const searchTerm = event.target.value;
     setSearchTerm(searchTerm);
 
     if (searchTerm.length >= 2) {
       const filteredUsers = users.filter((user) =>
-        user.email.toLowerCase().includes(searchTerm.toLowerCase())
+        user?.email?.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredUsers(filteredUsers);
       setShowPopup(true);
@@ -63,7 +65,7 @@ const SearchComponent = (props) => {
   };
 
   const filteredUsersToDisplay = filteredUsers?.filter(
-    (filteredUser) => filteredUser.email !== userData?.email
+    (filteredUser) => filteredUser?.email !== userData?.email
   );
 
   return (
@@ -78,6 +80,7 @@ const SearchComponent = (props) => {
           <input
             type='text'
             value={searchTerm}
+            placeholder='Kezdje el beírni a felhasználó e-mail címét!'
             onChange={handleSearch}
             className={`input input-bordered input-primary mt-1 p-2 w-full border rounded`}
           />
