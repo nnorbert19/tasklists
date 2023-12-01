@@ -13,6 +13,9 @@ export async function middleware(request, response) {
     headers: {
       Cookie: `session=${session?.value}`,
     },
+  }).catch((error) => {
+    console.error(error);
+    return NextResponse.redirect(new URL('/', request.url));
   });
 
   if (responseAPI.status !== 200) {
