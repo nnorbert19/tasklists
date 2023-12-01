@@ -34,6 +34,7 @@ function UserLister({
     if (userIsAdmin) {
       getUsers();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getUsers() {
@@ -43,7 +44,6 @@ function UserLister({
       userData.push(doc.data());
     });
     setUsersToFilter(userData);
-    console.log(userData);
   }
 
   async function addUsers() {

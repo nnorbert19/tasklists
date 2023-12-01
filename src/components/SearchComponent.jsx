@@ -15,8 +15,6 @@ const SearchComponent = (props) => {
 
   if (!users) return <Loading />;
 
-  console.log(props?.filterFrom);
-
   const handleSearch = (event) => {
     const searchTerm = event.target.value;
     setSearchTerm(searchTerm);

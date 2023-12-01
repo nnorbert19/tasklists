@@ -74,8 +74,6 @@ function UserLister() {
               user?.scenes?.forEach((scene) => {
                 const sceneDocRef = doc(db, 'scenes', scene.id);
                 const messagesDocRef = doc(db, 'messages', scene.id);
-                console.log(scene.id);
-                console.log(user);
                 batch.update(sceneDocRef, {
                   users: arrayRemove({
                     displayName: user.displayName,
@@ -91,7 +89,6 @@ function UserLister() {
                   }),
                 });
               });
-              console.log(user);
 
               batch.delete(doc(db, 'users', user.email));
               await batch.commit();
