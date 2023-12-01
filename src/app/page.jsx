@@ -6,10 +6,6 @@ async function getUser() {
   const cookieStore = cookies();
   const session = cookieStore?.get('session')?.value;
   if (session) {
-    fetch(`${request.nextUrl.origin}/api/login`, {
-      method: 'POST',
-    }).catch((error) => console.error(error));
-
     redirect('/kezdolap');
   }
 }
