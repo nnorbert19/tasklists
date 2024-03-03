@@ -116,7 +116,7 @@ function UserLister({
         await batch.commit();
 
         toast.success('Felhasználó sikeresen eltávolítva.', {
-          autoClose: 500000,
+          autoClose: 5000,
         });
       } catch (error) {
         console.error(error.message);
@@ -194,14 +194,14 @@ function UserLister({
           <button>close</button>
         </form>
       </dialog>
-      <div className='bg-base-200 h-56 p-1 pb-2 mt-2 border-base-100 rounded-lg text-center'>
+      <div className='bg-base-200 h-56 w-100 p-1 pb-2 mt-2 border-base-100 rounded-lg text-center'>
         <p className='font-medium'>Felhasználók:</p>
         <ul
           role='list'
-          className='divide-y divide-base-300 h-40 dark:divide-gray-700 text-left overflow-hidden'
+          className='divide-y divide-base-300 h-40 dark:divide-gray-700 text-left'
         >
           {users.map((user) => (
-            <li key={user.email} className='py-1 sm:py-2'>
+            <li key={user.email} className='py-1 sm:py-2 overflow-hidden'>
               <UserComponent withEmail user={user} />
             </li>
           ))}

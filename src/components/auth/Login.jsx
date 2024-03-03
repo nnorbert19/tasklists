@@ -43,7 +43,7 @@ export default function Login() {
               .then((response) => response.json())
               .then((data) => {
                 if (data?.userHasData === true) {
-                  router.push('/');
+                  router.push('/kezdolap');
                 } else router.push('/elso-lepesek');
               });
           }

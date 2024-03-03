@@ -24,6 +24,8 @@ export function CtxProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
+  console.log(user);
+
   useEffect(() => {
     if (user && userData?.scenes?.length >= 1) {
       const userScenes = [];
@@ -54,17 +56,6 @@ export function CtxProvider({ children }) {
       }
     }
   }, [sceneId, scenes]);
-
-  function getScene(id) {
-    if (currentScene?.id == id) return;
-
-    const scene = scenes?.filter((scene) => scene?.id == id);
-    if (!scene) {
-      setCurrentScene(null);
-    } else {
-      setCurrentScene(...scene);
-    }
-  }
 
   return (
     <Context.Provider

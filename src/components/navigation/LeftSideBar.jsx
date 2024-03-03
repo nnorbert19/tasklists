@@ -230,7 +230,7 @@ function LeftSideBar({ children }) {
               )}
               <a
                 onClick={() => logout()}
-                className={`absolute bottom-0 pb-2 w-full flex flex-row items-center gap-x-4 hover:bg-secondary-focus rounded-md cursor-pointer`}
+                className={`absolute bottom-0 mb-2 flex flex-row items-center gap-x-4 hover:bg-secondary-focus rounded-md cursor-pointer`}
               >
                 <span className='block float-left'>
                   <svg

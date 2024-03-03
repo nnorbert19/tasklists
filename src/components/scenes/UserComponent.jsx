@@ -15,14 +15,14 @@ function UserComponent({ user, withEmail }) {
         <p
           className={`${
             withEmail
-              ? 'text-sm font-medium text-gray-900 truncate dark:text-white'
+              ? 'text-sm font-medium text-gray-900 w-32 truncate dark:text-white'
               : 'text-xs font-medium italic text-gray-500'
           }`}
         >
           {user.displayName}
         </p>
         {withEmail && (
-          <p className='text-xs text-gray-500 truncate dark:text-gray-400'>
+          <p className='text-xs text-gray-500 w-32 truncate dark:text-gray-400'>
             {user.email}
           </p>
         )}

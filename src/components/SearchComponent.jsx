@@ -33,7 +33,7 @@ const SearchComponent = (props) => {
 
   const handleToggleUser = (user) => {
     if (props?.onlyOne) {
-      if (selectedUsers[0]?.email == userData?.email) {
+      if (selectedUsers[0]?.email == user?.email) {
         setSelectedUsers([]);
         props.setUsers([]);
       } else {
@@ -62,9 +62,11 @@ const SearchComponent = (props) => {
     setShowPopup(false);
   };
 
-  const filteredUsersToDisplay = filteredUsers?.filter(
-    (filteredUser) => filteredUser?.email !== userData?.email
-  );
+  const filteredUsersToDisplay = props?.onlyOne
+    ? filteredUsers
+    : filteredUsers?.filter(
+        (filteredUser) => filteredUser?.email !== userData?.email
+      );
 
   return (
     <div className='w-full mb-4 '>
