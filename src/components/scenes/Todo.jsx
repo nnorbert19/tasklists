@@ -30,7 +30,7 @@ function Todo({
     description ? description : ''
   );
   const [isEditing, setIsEditing] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(assigned);
+  const [selectedUser, setSelectedUser] = useState(assigned && assigned);
   const [newDate, setNewDate] = useState(
     deadline && fromUnixTime(deadline?.seconds)
   );
@@ -101,6 +101,14 @@ function Todo({
       await updateDoc(documentRef, {
         todos: arrayRemove(data),
       });
+
+      if (data.stage == 'toDo') {
+        data.assigned = {
+          displayName: user.displayName,
+          email: user.email,
+          photoUrl: user.photoUrl,
+        };
+      }
 
       data.stage = stage;
 
@@ -177,7 +185,7 @@ function Todo({
         <h1 className=' text-gray-500'>{toDoStage(data.stage)}</h1>
         <h1 className='text-2xl font-medium text-gray-900 py-4'>{title}</h1>
         {description && <p className='py-5'>{description}</p>}
-        <div className='flex flex-row justify-between w-full pb-3'>
+        <div className='flex flex-col justify-center items-center gap-2 sm:flex-row sm:justify-between w-full pb-3'>
           <div className='w-40'>
             <p className='text-xs font-medium text-gray-500'>létrehozva:</p>
             <p className='text-xs font-medium italic text-gray-500'>
@@ -206,12 +214,16 @@ function Todo({
           </div>
         </div>
         <div>
-          <details className='dropdown dropdown-top'>
-            <summary className='m-1 btn btn-primary btn-xs'>Mozgatás</summary>
-            <ul className='p-2 shadow menu dropdown-content z-[1] bg-base-200 rounded-box w-52'>
-              {getMoveList()}
-            </ul>
-          </details>
+          {(administrator == user?.email ||
+            assigned?.email == user?.email ||
+            (data.stage == 'toDo' && !assigned)) && (
+            <details className='dropdown dropdown-top'>
+              <summary className='m-1 btn btn-primary btn-xs'>Mozgatás</summary>
+              <ul className='p-2 shadow menu dropdown-content z-[1] bg-base-200 rounded-box w-52'>
+                {getMoveList()}
+              </ul>
+            </details>
+          )}
           {(userCanCreate || administrator == user?.email) && (
             <button
               className='btn btn-secondary btn-xs mt-2'
@@ -319,16 +331,10 @@ function Todo({
           </div>
 
           <div className='m-0 mt-5 flex justify-center'>
-            <button //disabled={loading}
-              type='submit'
-              className='btn btn-primary p-2'
-            >
+            <button type='submit' className='btn btn-primary p-2'>
               Módosítás
             </button>
-            <button //disabled={loading}
-              className='btn btn-ghost p-2'
-              onClick={() => closeModal()}
-            >
+            <button className='btn btn-ghost p-2' onClick={() => closeModal()}>
               Mégse
             </button>
           </div>

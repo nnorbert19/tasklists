@@ -28,7 +28,7 @@ function SceneLister() {
             </div>
             <button className='btn btn-neutral btn-xs'>
               <Link href={`/szinterek/${scene?.id}`}>
-                <p className=' truncate max-w-10'>Színtér megnyitása</p>
+                <p className='truncate max-w-10'>Színtér megnyitása</p>
               </Link>
             </button>
           </div>

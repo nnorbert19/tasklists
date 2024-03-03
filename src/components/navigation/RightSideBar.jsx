@@ -23,6 +23,7 @@ function RightSideBar({ children }) {
       <div className='h-full drawer-content'>
         {/* oldal*/}
         {children}
+        {/* Mobil gomb */}
         <label
           htmlFor='right-sidebar'
           className='btn btn-circle fixed top-0 right-0 m-4'
@@ -58,7 +59,7 @@ function RightSideBar({ children }) {
           {!sceneLoading && currentScene && (
             <div className='flex justify-start items-center flex-col  overflow-hidden'>
               <li>
-                <h2 className='text-xl font-medium pb-4'>
+                <h2 className='text-xl font-medium pb-4 truncate max-w-[180px]'>
                   {currentScene?.name}
                 </h2>
               </li>

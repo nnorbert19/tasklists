@@ -27,8 +27,8 @@ export function CtxProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
-  console.log(scenes);
-  console.log(userData);
+  //console.log(scenes);
+  //console.log(userData);
 
   useEffect(() => {
     if (user && userData?.scenes?.length >= 1) {

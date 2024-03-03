@@ -209,14 +209,14 @@ function LeftSideBar({ children }) {
               </div>
               {submenuOpen && (
                 <>
-                  <ul
-                    className={` py-2 duration-500 overflow-auto w-46 max-h-46  `}
-                  >
+                  <ul className='py-2 duration-500 overflow-auto w-46 max-h-46 place-items-start'>
                     {scenes?.length >= 1 &&
                       scenes?.map((scene) => (
-                        <li key={scene?.id} className=' truncate max-w-10'>
+                        <li key={scene?.id}>
                           <Link href={`/szinterek/${scene?.id}`}>
-                            <p className=' truncate max-w-10'>{scene?.name}</p>
+                            <p className='content-center place-items-center truncate max-w-10'>
+                              {scene?.name}
+                            </p>
                           </Link>
                         </li>
                       ))}

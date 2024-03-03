@@ -32,19 +32,19 @@ function NewMessage({ user, id }) {
   }
 
   return (
-    <div className='w-full h-32 mt-4'>
+    <div className='w-full h-32 mt-2'>
       <form
         className='flex flex-wrap align-baseline justify-center content-center'
         onSubmit={submitForm}
       >
-        <input
+        <textarea
           required
           type='text'
           placeholder='Üzenet'
           ref={messageRef}
-          className='input input-bordered input-primary m-3 min-w-80 sm:min-w-24 max-w-96 border-2  rounded'
+          className='input input-bordered input-primary max-h-20 mx-3 w-full border-2 rounded'
         />
-        <button disabled={loading} className='btn btn-primary m-3'>
+        <button disabled={loading} className='btn btn-primary mx-3 mt-2'>
           Küldés
         </button>
       </form>

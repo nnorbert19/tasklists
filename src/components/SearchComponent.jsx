@@ -14,8 +14,8 @@ const SearchComponent = (props) => {
   const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
-    setSelectedUsers(props?.selectedUser);
-  }, [props?.selectedUser]);
+    setSelectedUsers(props?.selectedUser ? props?.selectedUser : []);
+  }, [props.selectedUser]);
 
   if (!users) return <Loading />;
 
@@ -36,27 +36,27 @@ const SearchComponent = (props) => {
   };
 
   const handleToggleUser = (user) => {
-    if (props?.onlyOne) {
-      if (selectedUsers[0]?.email == user?.email) {
-        setSelectedUsers([]);
-        props.setUsers([]);
+    if (props.onlyOne) {
+      if (selectedUsers && selectedUsers[0]?.email == user?.email) {
+        setSelectedUsers();
+        props.setUsers();
       } else {
         setSelectedUsers([user]);
         props.setUsers(user);
       }
     } else {
-      const updatedSelectedUsers = [...selectedUsers];
-      const isUserSelected = updatedSelectedUsers.some(
+      const updatedSelectedUsers = selectedUsers ? [...selectedUsers] : [];
+      const isUserSelected = updatedSelectedUsers?.some(
         (selectedUser) => selectedUser.email === user.email
       );
 
       if (isUserSelected) {
-        const index = updatedSelectedUsers.findIndex(
+        const index = updatedSelectedUsers?.findIndex(
           (selectedUser) => selectedUser.email === user.email
         );
-        updatedSelectedUsers.splice(index, 1);
+        updatedSelectedUsers?.splice(index, 1);
       } else {
-        updatedSelectedUsers.push(user);
+        updatedSelectedUsers?.push(user);
       }
 
       setSelectedUsers(updatedSelectedUsers);

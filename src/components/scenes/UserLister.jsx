@@ -43,7 +43,12 @@ function UserLister({
     querySnapshot.forEach((doc) => {
       userData.push(doc.data());
     });
-    setUsersToFilter(userData);
+
+    const usersWithoutexisting = userData.filter(
+      (user) => !users.some((existingUser) => existingUser.email === user.email)
+    );
+
+    setUsersToFilter(usersWithoutexisting);
   }
 
   async function addUsers() {
@@ -86,8 +91,9 @@ function UserLister({
       // Commit the batch write
       await batch.commit();
 
-      toast.success('Felhasználók hozzáadva');
       setSelectedUsers([]);
+      getUsers();
+      toast.success('Felhasználók hozzáadva');
       setLoading(false);
     } catch (error) {
       console.error(error.message);
@@ -176,7 +182,7 @@ function UserLister({
           {userIsAdmin && (
             <div className='flex flex-col items-center'>
               <SearchComponent
-                selectedUsers={selectedUsers}
+                selectedUser={selectedUsers ? selectedUsers : undefined}
                 setUsers={setSelectedUsers}
                 filterFrom={usersToFilter}
               />

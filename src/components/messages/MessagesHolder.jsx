@@ -18,7 +18,7 @@ function MessagesHolder({ messagesData }) {
   return (
     <div className='w-full h-screen p-10'>
       <div className='flex flex-col w-full h-full bg-base-100 rounded-lg p-5'>
-        <div className='h-full border-primary border-solid border-4 rounded-lg m-4 p-5 overflow-auto'>
+        <div className='h-full border-primary border-solid border-4 rounded-lg mx-3 mt-3 p-3 overflow-auto'>
           {messagesData?.messages?.map((message) => (
             <Messages
               key={message.timestamp}
