@@ -7,7 +7,7 @@ function SceneLister() {
   const { scenes } = useCtx();
 
   return (
-    <div className='max-w-3xl w-full max-h-[80vh] overflow-auto bg-white p-2 rounded-lg shadow-xl space-y-4 mx-auto '>
+    <div className='max-w-3xl w-full max-h-[80vh] overflow-auto bg-white p-2 rounded-lg shadow-xl flex flex-col items-center space-y-4 mx-auto '>
       <h3 className='text-xl font-medium'>Színtereim</h3>
       {!scenes && <div>Nincs megjeleníthető színtered!</div>}
       {scenes?.map((scene) => (
@@ -34,7 +34,7 @@ function SceneLister() {
           </div>
         </div>
       ))}
-      <button className='btn btn-xs btn-neutral'>
+      <button className='btn btn-primary'>
         <Link href={'/szinter-letrehozasa'}>Színtér létrehozása</Link>
       </button>
     </div>

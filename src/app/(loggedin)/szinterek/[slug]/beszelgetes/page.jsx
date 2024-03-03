@@ -1,14 +1,15 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 import { useCtx } from '@/context/Context';
 import { useEffect, useState } from 'react';
 import { usePathname } from 'next/navigation';
-import Loading from '@/app/Loading';
+import Loading from '@/app/loading';
 import MessagesHolder from '@/components/messages/MessagesHolder';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 
 function Page() {
-  const { userData, setSceneId, currentScene } = useCtx();
+  const { userData, setSceneId } = useCtx();
   const pathname = usePathname();
   const parts = pathname.split('/');
   const id = parts[parts.length - 2];

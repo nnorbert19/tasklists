@@ -1,6 +1,6 @@
-import Loading from '@/app/Loading';
+import Loading from '@/app/loading';
 import { useCtx } from '@/context/Context';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const SearchComponent = (props) => {
   const { userData } = useCtx();
@@ -12,6 +12,10 @@ const SearchComponent = (props) => {
   );
   const [searchTerm, setSearchTerm] = useState('');
   const [showPopup, setShowPopup] = useState(false);
+
+  useEffect(() => {
+    setSelectedUsers(props?.selectedUser);
+  }, [props?.selectedUser]);
 
   if (!users) return <Loading />;
 
@@ -86,22 +90,22 @@ const SearchComponent = (props) => {
           />
         </div>
         {showPopup && (
-          <div className='absolute top-full left-0 mt-2 p-2 bg-white border rounded shadow-lg  min-w-fit '>
+          <div className='absolute top-full left-0 mt-2 p-2 bg-white border rounded shadow-lg  min-w-fit z-10'>
             <ul className='space-y-2 max-h-28 overflow-x-auto'>
               {filteredUsersToDisplay.length == 0 && (
                 <li>Nincs megjeleníthető felhasználó</li>
               )}
               {filteredUsersToDisplay?.map((user) => (
-                <li key={user.email} className='flex items-center'>
+                <li key={user.email} className='flex items-center gap-y-2'>
                   <input
                     type='checkbox'
-                    checked={selectedUsers.some(
+                    checked={selectedUsers?.some(
                       (selectedUser) => selectedUser.email === user.email
                     )}
                     onChange={() => handleToggleUser(user)}
                     className='mr-2 checkbox checkbox-primary'
                   />
-                  <div className='flex flex-col'>
+                  <div className='flex flex-col items-start'>
                     <p className='text-sm font-semibold truncate max-w-[200px]'>
                       {user.displayName}
                     </p>

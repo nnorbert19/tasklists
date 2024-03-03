@@ -1,7 +1,7 @@
 import { useRef, useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import SearchComponent from '../SearchComponent';
-import Loading from '@/app/Loading';
+import Loading from '@/app/loading';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import { format, getUnixTime } from 'date-fns';

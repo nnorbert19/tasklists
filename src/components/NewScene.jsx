@@ -13,7 +13,7 @@ import { db } from '@/lib/firebase';
 import { toast } from 'react-toastify';
 import { useRouter } from 'next/navigation';
 import { useCtx } from '@/context/Context';
-import Loading from '@/app/Loading';
+import Loading from '@/app/loading';
 import { getUnixTime } from 'date-fns';
 
 function NewScene() {

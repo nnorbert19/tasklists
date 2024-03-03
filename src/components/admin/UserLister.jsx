@@ -9,7 +9,7 @@ import {
 } from 'firebase/firestore';
 import { useEffect, useState } from 'react';
 import Avatar from '../user/Avatar';
-import Loading from '@/app/Loading';
+import Loading from '@/app/loading';
 import { toast } from 'react-toastify';
 import { useCtx } from '@/context/Context';
 

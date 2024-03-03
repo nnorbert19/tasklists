@@ -50,7 +50,14 @@ export default function Google({ setLoading }) {
   }, []);
 
   async function signIn() {
-    signInWithRedirect(auth, provider).catch((err) => console.log(err));
+    signInWithRedirect(auth, provider)
+      .then(() => {
+        setLoading(true);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   }
 
   return (

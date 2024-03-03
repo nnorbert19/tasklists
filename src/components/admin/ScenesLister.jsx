@@ -1,4 +1,4 @@
-import Loading from '@/app/Loading';
+import Loading from '@/app/loading';
 import { db } from '@/lib/firebase';
 import {
   arrayRemove,

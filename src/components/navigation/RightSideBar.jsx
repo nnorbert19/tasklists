@@ -1,5 +1,5 @@
 'use client';
-import Loading from '@/app/Loading';
+import Loading from '@/app/loading';
 import { useCtx } from '@/context/Context';
 import { usePathname, useRouter } from 'next/navigation';
 import HistoryLister from '../scenes/HistoryLister';

@@ -5,11 +5,14 @@ import { collection, doc, onSnapshot, query, where } from 'firebase/firestore';
 const Context = createContext();
 
 export function CtxProvider({ children }) {
+  //Felhasználó authentikáció utáni adatai
   const [user, setUser] = useState(null);
+  //Felhasználó adatbázisbeli adatai
   const [userData, setUserData] = useState();
   const [scenes, setScenes] = useState();
   const [currentScene, setCurrentScene] = useState();
   const [sceneId, setSceneId] = useState();
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged((user) => {
@@ -24,7 +27,8 @@ export function CtxProvider({ children }) {
     return () => unsubscribe();
   }, []);
 
-  console.log(user);
+  console.log(scenes);
+  console.log(userData);
 
   useEffect(() => {
     if (user && userData?.scenes?.length >= 1) {

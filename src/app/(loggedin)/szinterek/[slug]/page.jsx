@@ -7,7 +7,7 @@ import { useEffect, useState } from 'react';
 import { doc, onSnapshot } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { usePathname } from 'next/navigation';
-import Loading from '@/app/Loading';
+import Loading from '@/app/loading';
 import SceneNotFound from '@/components/scenes/SceneNotFound';
 
 function Page() {
@@ -25,7 +25,6 @@ function Page() {
   return (
     <>
       <div className='min-h-screen max-h-screen w-100 flex justify-center items-center flex-wrap overflow-y-auto overflow-x-hidden'>
-        {loading && <Loading />}
         {!loading && currentScene && (
           <div className='content-center'>
             {(currentScene.userCanCreate ||

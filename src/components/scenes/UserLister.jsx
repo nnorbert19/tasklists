@@ -22,7 +22,7 @@ function UserLister({
   sceneName,
   displayName,
 }) {
-  const [selectedUsers, setSelectedUsers] = useState();
+  const [selectedUsers, setSelectedUsers] = useState([]);
   const [usersToFilter, setUsersToFilter] = useState();
   const [loading, setLoading] = useState();
 
@@ -129,7 +129,7 @@ function UserLister({
     <>
       <dialog id='userModal' className='modal'>
         <div className='modal-box'>
-          <div className='overflow-x-auto px-3'>
+          <div className='overflow-x-auto  px-3'>
             <table className='table px-2'>
               <thead>
                 <tr>
@@ -174,7 +174,7 @@ function UserLister({
             </table>
           </div>
           {userIsAdmin && (
-            <>
+            <div className='flex flex-col items-center'>
               <SearchComponent
                 selectedUsers={selectedUsers}
                 setUsers={setSelectedUsers}
@@ -182,12 +182,12 @@ function UserLister({
               />
               <button
                 className='btn btn-primary'
-                disabled={loading}
+                disabled={loading || selectedUsers?.length === 0}
                 onClick={() => addUsers()}
               >
                 Hozzáadás
               </button>
-            </>
+            </div>
           )}
         </div>
         <form method='dialog' className='modal-backdrop'>

@@ -10,8 +10,13 @@ function Avatar({ photoUrl, ...props }) {
         alt='profile picture avatar'
         sizes='100%'
         quality={80}
-        style={{ width: 'auto', height: 'auto', maxHeight: '400px' }}
-        className='avatar rounded-full aspect-square overflow-hidden border'
+        /*style={{
+          width: 'auto',
+          height: 'auto',
+          maxHeight: '400px',
+          minWidth: '32px',
+        }}*/
+        className='avatar w-auto h-auto max-h-[400px] min-w-[32px] rounded-full aspect-square overflow-hidden border'
         src={url}
         width={0}
         height={0}
