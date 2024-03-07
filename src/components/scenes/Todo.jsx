@@ -90,7 +90,7 @@ function Todo({
   }
 
   async function moveTodo(stage) {
-    if (stage == 'ready' && modApproval && administrator !== user.email) {
+    if (stage == 'ready' && (modApproval || administrator !== user.email)) {
       toast.error('Ehhez nincs joga.');
       return;
     }
@@ -248,7 +248,7 @@ function Todo({
 
   async function submitForm(e) {
     e.preventDefault();
-    if (!userCanCreate) {
+    if (!userCanCreate && administrator !== user.email) {
       toast.error('Ehhez nincs joga.');
       return;
     }

@@ -195,7 +195,7 @@ function UserLister({ users, userIsAdmin, userEmail, sceneId, displayName }) {
         <p className='font-medium'>Felhasználók:</p>
         <ul
           role='list'
-          className='divide-y divide-base-300 h-40 dark:divide-gray-700 text-left'
+          className='divide-y overflow-hidden divide-base-300 h-40 dark:divide-gray-700 text-left'
         >
           {users.map((user) => (
             <li key={user.email} className='py-1 sm:py-2 overflow-hidden'>
