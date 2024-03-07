@@ -15,6 +15,8 @@ function RightSideBar({ children }) {
   const parts = pathname.split('/');
   const id = currentScene?.id;
 
+  //useEffect(() => {}, [pathname]);
+
   if (!currentScene) return <>{children};</>;
 
   return (
@@ -67,7 +69,10 @@ function RightSideBar({ children }) {
                 <li>
                   <button
                     className='btn btn-neutral'
-                    onClick={() => router.push(`/szinterek/${id}`)}
+                    onClick={() => {
+                      router.push(`/szinterek/${id}`);
+                      document.getElementById('right-sidebar').click();
+                    }}
                   >
                     Feladatok
                   </button>
@@ -76,7 +81,10 @@ function RightSideBar({ children }) {
                 <li>
                   <button
                     className='btn btn-neutral'
-                    onClick={() => router.push(pathname + '/beszelgetes')}
+                    onClick={() => {
+                      router.push(pathname + '/beszelgetes');
+                      document.getElementById('right-sidebar').click();
+                    }}
                   >
                     Beszélgetés
                   </button>

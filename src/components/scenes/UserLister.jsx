@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import UserComponent from './UserComponent';
 import Avatar from '../user/Avatar';
 import { db } from '@/lib/firebase';
@@ -14,14 +15,7 @@ import {
 import SearchComponent from '../SearchComponent';
 import { useEffect, useState } from 'react';
 
-function UserLister({
-  users,
-  userIsAdmin,
-  userEmail,
-  sceneId,
-  sceneName,
-  displayName,
-}) {
+function UserLister({ users, userIsAdmin, userEmail, sceneId, displayName }) {
   const [selectedUsers, setSelectedUsers] = useState([]);
   const [usersToFilter, setUsersToFilter] = useState();
   const [loading, setLoading] = useState();
@@ -34,7 +28,6 @@ function UserLister({
     if (userIsAdmin) {
       getUsers();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getUsers() {
@@ -135,49 +128,47 @@ function UserLister({
     <>
       <dialog id='userModal' className='modal'>
         <div className='modal-box'>
+          <form method='dialog'>
+            <button className='btn btn-sm btn-circle btn-ghost absolute right-2 top-2'>
+              ✕
+            </button>
+          </form>
           <div className='overflow-x-auto  px-3'>
-            <table className='table px-2'>
-              <thead>
-                <tr>
-                  <th>Profilkép</th>
-                  <th>Név</th>
-                  <th>E-mail</th>
-                  {userIsAdmin && <th></th>}
-                </tr>
-              </thead>
-              <tbody>
-                {users.map((user) => (
-                  <tr key={user.email}>
-                    <td className='w-6 h-6'>
-                      <Avatar photoUrl={user.photoUrl} />
-                    </td>
-                    <td>{user.displayName}</td>
-                    <td>{user.email}</td>
-                    {userIsAdmin && userEmail !== user.email && (
-                      <td>
-                        <div className='tooltip' data-tip='Eltávolítás'>
-                          <svg
-                            xmlns='http://www.w3.org/2000/svg'
-                            fill='none'
-                            viewBox='0 0 24 24'
-                            strokeWidth={1.5}
-                            stroke='currentColor'
-                            className='w-6 h-6 hover:cursor-pointer'
-                            onClick={() => kickUser(user)}
-                          >
-                            <path
-                              strokeLinecap='round'
-                              strokeLinejoin='round'
-                              d='M6 18L18 6M6 6l12 12'
-                            />
-                          </svg>
-                        </div>
-                      </td>
-                    )}
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+            {users.map((user) => (
+              <div
+                key={user.email}
+                className='card w-50  bg-base-100 shadow-xl m-2 '
+              >
+                <div className='card-body flex-col lg:flex-row items-center p-4'>
+                  <div className='w-10 rounded-full mr-1'>
+                    <Avatar photoUrl={user.photoUrl} />
+                  </div>
+                  <p>{user.displayName}</p>
+                  <p>{user.email}</p>
+                  {userIsAdmin && userEmail !== user.email && (
+                    <div className='card-actions justify-end items-center duration-100 hover:scale-110 z-10'>
+                      <div className='tooltip' data-tip='Eltávolítás'>
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          fill='none'
+                          viewBox='0 0 24 24'
+                          strokeWidth={1.5}
+                          stroke='currentColor'
+                          className='w-6 h-6 hover:cursor-pointer'
+                          onClick={() => kickUser(user)}
+                        >
+                          <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            d='M6 18L18 6M6 6l12 12'
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            ))}
           </div>
           {userIsAdmin && (
             <div className='flex flex-col items-center'>
@@ -197,7 +188,7 @@ function UserLister({
           )}
         </div>
         <form method='dialog' className='modal-backdrop'>
-          <button>close</button>
+          <button>Bezárás</button>
         </form>
       </dialog>
       <div className='bg-base-200 h-56 w-100 p-1 pb-2 mt-2 border-base-100 rounded-lg text-center'>

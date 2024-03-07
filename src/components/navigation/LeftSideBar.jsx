@@ -1,20 +1,25 @@
 'use client';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { signOut } from 'firebase/auth';
 import { auth, db } from '@/lib/firebase';
 import { usePathname, useRouter } from 'next/navigation';
 import Avatar from '../user/Avatar';
 import Link from 'next/link';
-import { doc, onSnapshot } from 'firebase/firestore';
+import { doc, updateDoc } from 'firebase/firestore';
 import { useCtx } from '@/context/Context';
+import { getUnixTime } from 'date-fns';
 
 function LeftSideBar({ children }) {
-  const { userData, scenes } = useCtx();
+  const { userData, scenes, notifications } = useCtx();
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
   async function logout() {
+    const userRef = doc(db, 'users', userData?.email);
+    await updateDoc(userRef, {
+      lastLogout: getUnixTime(new Date()),
+    });
     await signOut(auth);
     const response = await fetch('/api/signout', {
       method: 'POST',
@@ -56,11 +61,24 @@ function LeftSideBar({ children }) {
             {/* tartalom */}
             <div className='flex justify-start items-center flex-col overflow-hidden font-medium'>
               <div className={`w-24 duration-500 ease-in-out`}>
-                <Link href={'/profil'}>
-                  <Avatar photoUrl={userData?.photoUrl} />
+                <Link
+                  href={'/profil'}
+                  onClick={() =>
+                    document.getElementById('left-sidebar').click()
+                  }
+                >
+                  <Avatar
+                    photoUrl={userData?.photoUrl}
+                    //className='min-w-[96px]'
+                    styling='min-w-[96px] min-h-[96px] rounded-full'
+                    picture='min-w-[96px]'
+                  />
                 </Link>
               </div>
               <Link
+                onClick={() => {
+                  document.getElementById('left-sidebar').click();
+                }}
                 href={'/kezdolap'}
                 className={`mt-10 ${
                   pathname === '/kezdolap' && 'bg-secondary-focus rounded-md'
@@ -84,8 +102,58 @@ function LeftSideBar({ children }) {
                 </span>
                 <span className={`text-lg font-medium px-1`}>Kezdőlap</span>
               </Link>
+              <a
+                onClick={() => {
+                  document.getElementById('left-sidebar').click();
+                  document.getElementById('notiModal').showModal();
+                }}
+                className='mt-5 w-full flex flex-row items-center gap-x-4 hover:bg-secondary-focus rounded-md'
+              >
+                {notifications.length > 0 ? (
+                  <svg
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                    strokeWidth={1.5}
+                    stroke='currentColor'
+                    className='w-10 h-10'
+                  >
+                    <path
+                      strokeLinecap='round'
+                      strokeLinejoin='round'
+                      d='M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5'
+                    />
+                  </svg>
+                ) : (
+                  <span className='block float-left'>
+                    <svg
+                      xmlns='http://www.w3.org/2000/svg'
+                      fill='none'
+                      viewBox='0 0 24 24'
+                      strokeWidth={1.5}
+                      stroke='currentColor'
+                      className='w-10 h-10'
+                    >
+                      <path
+                        strokeLinecap='round'
+                        strokeLinejoin='round'
+                        d='M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0'
+                      />
+                    </svg>
+                  </span>
+                )}
+                <span className='text-lg font-medium px-1 flex-row'>
+                  Értesítések
+                  {notifications.length > 0 && (
+                    <span className='animate-ping relative block left-24 bottom-6  h-1 w-1 rounded-full ring-2 ring-blue-400 bg-blue-600' />
+                  )}
+                </span>
+              </a>
               {userData?.isAdmin && (
                 <Link
+                  onClick={() => {
+                    document.getElementById('left-sidebar').click();
+                  }}
                   href={'/admin'}
                   className={`mt-5 ${
                     pathname === '/admin' && 'bg-secondary-focus rounded-md'
@@ -116,6 +184,9 @@ function LeftSideBar({ children }) {
                 </Link>
               )}
               <Link
+                onClick={() => {
+                  document.getElementById('left-sidebar').click();
+                }}
                 href={'/profil'}
                 className={`mt-5 ${
                   pathname === '/profil' && 'bg-secondary-focus rounded-md'
@@ -213,7 +284,12 @@ function LeftSideBar({ children }) {
                     {scenes?.length >= 1 &&
                       scenes?.map((scene) => (
                         <li key={scene?.id}>
-                          <Link href={`/szinterek/${scene?.id}`}>
+                          <Link
+                            onClick={() => {
+                              document.getElementById('left-sidebar').click();
+                            }}
+                            href={`/szinterek/${scene?.id}`}
+                          >
                             <p className='content-center place-items-center truncate max-w-10'>
                               {scene?.name}
                             </p>
@@ -222,7 +298,12 @@ function LeftSideBar({ children }) {
                       ))}
                   </ul>
                   <button className='btn btn-xs btn-neutral'>
-                    <Link href={'/szinter-letrehozasa'}>
+                    <Link
+                      onClick={() => {
+                        document.getElementById('left-sidebar').click();
+                      }}
+                      href={'/szinter-letrehozasa'}
+                    >
                       Színtér létrehozása
                     </Link>
                   </button>

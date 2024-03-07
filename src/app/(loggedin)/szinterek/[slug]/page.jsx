@@ -4,20 +4,30 @@ import TodoHolder from '@/components/scenes/TodoHolder';
 import NewTodo from '@/components/scenes/NewTodo';
 import { useCtx } from '@/context/Context';
 import { useEffect, useState } from 'react';
-import { doc, onSnapshot } from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 import { usePathname } from 'next/navigation';
-import Loading from '@/app/loading';
 import SceneNotFound from '@/components/scenes/SceneNotFound';
 
 function Page() {
-  const { userData, setSceneId, currentScene } = useCtx();
+  const {
+    userData,
+    setSceneId,
+    currentScene,
+    notifications,
+    deleteNotification,
+  } = useCtx();
   const pathname = usePathname();
   const parts = pathname.split('/');
   const id = parts[parts.length - 1];
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const notificationsForCurrentScene = notifications?.filter(
+      (notification) => notification.id === `${id}-todo`
+    );
+    if (notificationsForCurrentScene) {
+      deleteNotification(`${id}-todo`);
+    }
+
     setSceneId(id);
     setLoading(false);
   }, [userData]);

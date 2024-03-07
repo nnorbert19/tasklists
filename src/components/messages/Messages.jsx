@@ -13,7 +13,13 @@ function Messages({ message, sentByUser, users }) {
       <div className='chat-header font-medium'>
         {sender.length !== 0 ? sender[0].displayName : 'Törölt felhasználó'}
       </div>
-      <div className='chat-bubble chat-bubble-info'>{message.message}</div>
+      <div
+        className={`chat-bubble  ${
+          sentByUser ? 'chat-bubble-success' : 'chat-bubble-info'
+        }`}
+      >
+        {message.message}
+      </div>
       <div className='chat-footer opacity-50'>
         {format(fromUnixTime(message.timestamp), 'yyyy/MM/dd H:mm')}
       </div>

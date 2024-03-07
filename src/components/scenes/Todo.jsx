@@ -102,7 +102,7 @@ function Todo({
         todos: arrayRemove(data),
       });
 
-      if (data.stage == 'toDo') {
+      if (data.stage == 'toDo' && !data.assigned) {
         data.assigned = {
           displayName: user.displayName,
           email: user.email,
@@ -118,6 +118,7 @@ function Todo({
         }),
         history: arrayUnion({
           type: 'todoMoved',
+          id: data.id,
           date: getUnixTime(new Date()),
           user: user.displayName,
           title: data.title,
@@ -270,6 +271,7 @@ function Todo({
           date: date,
         }),
         history: arrayUnion({
+          id: data.id,
           type: 'todoUpdated',
           date: getUnixTime(new Date()),
           user: user.displayName,

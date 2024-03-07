@@ -4,7 +4,7 @@ import SearchComponent from '../SearchComponent';
 import Loading from '@/app/loading';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import { format, getUnixTime } from 'date-fns';
+import { getUnixTime } from 'date-fns';
 import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
 import { db } from '@/lib/firebase';
 import { toast } from 'react-toastify';
@@ -34,6 +34,7 @@ function NewTodo({ scene, user }) {
       }),
       history: arrayUnion({
         type: 'todoCreate',
+        id: id,
         date: getUnixTime(new Date()),
         user: user.displayName,
         title: titleRef.current.value,

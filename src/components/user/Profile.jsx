@@ -237,8 +237,6 @@ function Profile() {
       .catch((error) => {
         toast.error('Hiba történt');
         console.error(error.message);
-        // An error ocurred
-        // ...
       });
   }
 

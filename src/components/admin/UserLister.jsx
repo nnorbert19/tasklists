@@ -105,85 +105,85 @@ function UserLister() {
   }
 
   return (
-    <div className='overflow-y-auto overflow-x-hidden w-full'>
+    <div className='overflow-y-auto overflow-x-hidden max-w-3xl w-full'>
       {loading ? (
         <div className='h-56'>
           <Loading />
         </div>
       ) : (
-        <table className='table'>
-          <thead>
-            <tr>
-              <th className='text-center'>Név</th>
-              <th className='text-center'>E-mail</th>
-              <th className='text-center'>Színtereinek száma</th>
-            </tr>
-          </thead>
-          <tbody>
-            {users?.map((user) => (
-              <tr key={user.uid}>
-                <td className='flex items-center text-center'>
-                  <div className='w-10 rounded-full mr-1'>
-                    <Avatar photoUrl={user.photoUrl} />
-                  </div>
-                  {user.displayName}
-                </td>
-                <td className='text-center'>{user.email}</td>
-                <td className='text-center'>
+        <>
+          {users.map((user) => (
+            <div key={user.email} className='card  bg-base-100 shadow-xl m-2 '>
+              <div className='card-body flex-col lg:flex-row items-center p-4'>
+                <div className='w-10 rounded-full mr-1'>
+                  <Avatar photoUrl={user.photoUrl} />
+                </div>
+                <div
+                  className='tooltip w-80 lg:w-40 text-center'
+                  data-tip={user.displayName}
+                >
+                  <p className='truncate'>{user.displayName}</p>
+                </div>
+                <div
+                  className='tooltip w-80 lg:w-52 text-center'
+                  data-tip={user.email}
+                >
+                  <p className='truncate'>{user.email}</p>
+                </div>
+                <p>
+                  Színtereinek száma:{' '}
                   {user.scenes?.length ? user.scenes.length : '0'}
-                </td>
-                <td className='flex gap-4 mr-2'>
-                  {user.email == userData.email ? (
-                    <></>
-                  ) : (
-                    <>
-                      <div
-                        className='tooltip hover:cursor-pointer'
-                        data-tip='Jelszóemlékeztető küldése'
-                        onClick={() => sendEmail(user)}
+                </p>
+                {user.email == userData.email ? (
+                  <></>
+                ) : (
+                  <div className='flex gap-2'>
+                    <div
+                      className='tooltip hover:cursor-pointer'
+                      data-tip='Jelszóemlékeztető küldése'
+                      onClick={() => sendEmail(user)}
+                    >
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth={1.5}
+                        stroke='currentColor'
+                        className='w-6 h-6'
                       >
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth={1.5}
-                          stroke='currentColor'
-                          className='w-6 h-6'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75'
-                          />
-                        </svg>
-                      </div>
-                      <div
-                        className='tooltip hover:cursor-pointer'
-                        data-tip='Felhasználó törlése'
-                        onClick={() => deleteUser(user)}
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M21.75 6.75v10.5a2.25 2.25 0 01-2.25 2.25h-15a2.25 2.25 0 01-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0019.5 4.5h-15a2.25 2.25 0 00-2.25 2.25m19.5 0v.243a2.25 2.25 0 01-1.07 1.916l-7.5 4.615a2.25 2.25 0 01-2.36 0L3.32 8.91a2.25 2.25 0 01-1.07-1.916V6.75'
+                        />
+                      </svg>
+                    </div>
+                    <div
+                      className='tooltip hover:cursor-pointer'
+                      data-tip='Felhasználó törlése'
+                      onClick={() => deleteUser(user)}
+                    >
+                      <svg
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                        strokeWidth={1.5}
+                        stroke='currentColor '
+                        className='w-6 h-6'
                       >
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                          strokeWidth={1.5}
-                          stroke='currentColor '
-                          className='w-6 h-6'
-                        >
-                          <path
-                            strokeLinecap='round'
-                            strokeLinejoin='round'
-                            d='M6 18L18 6M6 6l12 12'
-                          />
-                        </svg>
-                      </div>
-                    </>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                        <path
+                          strokeLinecap='round'
+                          strokeLinejoin='round'
+                          d='M6 18L18 6M6 6l12 12'
+                        />
+                      </svg>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </>
       )}
     </div>
   );

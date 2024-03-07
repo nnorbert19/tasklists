@@ -15,7 +15,7 @@ export default function RootLayout({ children }) {
       <body className='h-full w-full flex'>
         <ToastContainerWrapper />
         <Providers>
-          <div className='h-full w-full flex items-center justify-center bg-base-200'>
+          <div className='h-full w-full overflow-x-hidden flex items-center justify-center bg-base-200'>
             <Suspense fallback={<Loading />}>{children}</Suspense>
           </div>
         </Providers>
