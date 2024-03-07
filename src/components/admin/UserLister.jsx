@@ -139,7 +139,7 @@ function UserLister() {
                 ) : (
                   <div className='flex gap-2'>
                     <div
-                      className='tooltip hover:cursor-pointer'
+                      className='tooltip tooltip-left hover:cursor-pointer'
                       data-tip='Jelszóemlékeztető küldése'
                       onClick={() => sendEmail(user)}
                     >
@@ -159,7 +159,7 @@ function UserLister() {
                       </svg>
                     </div>
                     <div
-                      className='tooltip hover:cursor-pointer'
+                      className='tooltip tooltip-left hover:cursor-pointer'
                       data-tip='Felhasználó törlése'
                       onClick={() => deleteUser(user)}
                     >
