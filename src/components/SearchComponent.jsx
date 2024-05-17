@@ -13,6 +13,8 @@ const SearchComponent = (props) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [showPopup, setShowPopup] = useState(false);
 
+  console.log(selectedUsers);
+
   useEffect(() => {
     setSelectedUsers(props?.selectedUser ? props?.selectedUser : []);
   }, [props.selectedUser]);
@@ -58,7 +60,6 @@ const SearchComponent = (props) => {
       } else {
         updatedSelectedUsers?.push(user);
       }
-
       setSelectedUsers(updatedSelectedUsers);
       props.setUsers(updatedSelectedUsers);
     }
@@ -127,6 +128,7 @@ const SearchComponent = (props) => {
         </label>
         <ul className='max-h-24 min-h-6 border-primary p-1 overflow-y-auto overflow-hidden border rounded'>
           {selectedUsers &&
+            selectedUsers[0]?.email &&
             selectedUsers?.map((user) => (
               <li
                 key={user?.email}

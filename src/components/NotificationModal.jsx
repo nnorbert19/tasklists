@@ -32,7 +32,7 @@ function NotificationModal() {
   function RenderNotification() {
     return uniqueNotifications.map((notification) => (
       <div
-        className='card w-50 bg-base-100 shadow-xl m-2 duration-200 hover:scale-105'
+        className='card w-50 bg-base-100 border shadow-xl m-2 duration-200 hover:scale-105'
         key={notification.id}
       >
         <div className='card-body flex-row p-4'>

@@ -95,32 +95,46 @@ function UserLister({ users, userIsAdmin, userEmail, sceneId, displayName }) {
     }
   }
 
-  async function kickUser(user) {
+  function kickUser(user) {
     if (
       confirm(
         `Biztos el szeretnéd távolítani ${user.displayName} felhasználót?`
       )
-    ) {
-      try {
-        const batch = writeBatch(db);
-        batch.update(doc(db, 'messages', sceneId), {
-          users: arrayRemove(user),
-        });
-        batch.update(doc(db, 'scenes', sceneId), {
-          users: arrayRemove(user),
-        });
-        batch.update(doc(db, 'users', user.email), {
-          scenes: arrayRemove({ id: sceneId }),
-        });
-        await batch.commit();
+    )
+      deleteUser(user, 'kick');
+  }
 
+  function leaveScene(user) {
+    if (confirm(`Biztos ki szeretnél lépni a színtérből?`))
+      deleteUser(user, 'leave');
+  }
+
+  async function deleteUser(user, type) {
+    try {
+      const batch = writeBatch(db);
+      batch.update(doc(db, 'messages', sceneId), {
+        users: arrayRemove(user),
+      });
+      batch.update(doc(db, 'scenes', sceneId), {
+        users: arrayRemove(user),
+      });
+      batch.update(doc(db, 'users', user.email), {
+        scenes: arrayRemove({ id: sceneId }),
+      });
+      await batch.commit();
+
+      if (type === 'leave') {
+        toast.success('Sikeresen kiléptél a színtérből', {
+          autoClose: 5000,
+        });
+      } else {
         toast.success('Felhasználó sikeresen eltávolítva.', {
           autoClose: 5000,
         });
-      } catch (error) {
-        console.error(error.message);
-        toast.error('Hiba történt.');
       }
+    } catch (error) {
+      console.error(error.message);
+      toast.error('Hiba történt.');
     }
   }
 
@@ -133,11 +147,11 @@ function UserLister({ users, userIsAdmin, userEmail, sceneId, displayName }) {
               ✕
             </button>
           </form>
-          <div className='overflow-x-auto  px-3'>
+          <div className='overflow-x-hidden px-3'>
             {users.map((user) => (
               <div
                 key={user.email}
-                className='card w-50  bg-base-100 shadow-xl m-2 '
+                className='card w-50 border bg-base-100 shadow-xl m-2 '
               >
                 <div className='card-body flex-col lg:flex-row items-center p-4'>
                   <div className='w-10 rounded-full mr-1'>
@@ -145,6 +159,27 @@ function UserLister({ users, userIsAdmin, userEmail, sceneId, displayName }) {
                   </div>
                   <p>{user.displayName}</p>
                   <p>{user.email}</p>
+                  {userEmail === user.email && (
+                    <div className='card-actions justify-end items-center duration-100 hover:scale-110 z-10'>
+                      <div className='tooltip' data-tip='Kilépés'>
+                        <svg
+                          xmlns='http://www.w3.org/2000/svg'
+                          fill='none'
+                          viewBox='0 0 24 24'
+                          strokeWidth={1.5}
+                          stroke='currentColor'
+                          className='w-6 h-6 hover:cursor-pointer'
+                          onClick={() => leaveScene(user)}
+                        >
+                          <path
+                            strokeLinecap='round'
+                            strokeLinejoin='round'
+                            d='M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9'
+                          />
+                        </svg>
+                      </div>
+                    </div>
+                  )}
                   {userIsAdmin && userEmail !== user.email && (
                     <div className='card-actions justify-end items-center duration-100 hover:scale-110 z-10'>
                       <div className='tooltip' data-tip='Eltávolítás'>

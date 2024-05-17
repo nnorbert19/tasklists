@@ -2,7 +2,14 @@
 import { createContext, useContext, useEffect, useState } from 'react';
 import { auth, db } from '@/lib/firebase';
 import { v4 as uuidv4 } from 'uuid';
-import { collection, doc, onSnapshot, query, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  updateDoc,
+  where,
+} from 'firebase/firestore';
 import { getUnixTime } from 'date-fns';
 import { usePathname } from 'next/navigation';
 
@@ -30,9 +37,10 @@ export function CtxProvider({ children }) {
     setLastActivity(getUnixTime(new Date()));
   }
 
-  async function saveNotification() {
+  function saveNotification() {
     const userRef = doc(db, 'users', userData?.email);
-    await updateDoc(userRef, {
+    console.log(notifications);
+    updateDoc(userRef, {
       lastLogout: getUnixTime(new Date()),
       notifications: [...notifications],
     });
@@ -47,12 +55,14 @@ export function CtxProvider({ children }) {
           setUserData(doc.data());
         });
         return () => {
+          saveNotification;
           unsubscribe();
-          saveNotification();
         };
       }
     });
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+    };
   }, []);
 
   useEffect(() => {
@@ -104,7 +114,6 @@ export function CtxProvider({ children }) {
               });
             }
           });
-          //checkSceneChanges(changesTmp);
           setScenes(scenesTmp);
         }
       );
@@ -130,7 +139,6 @@ export function CtxProvider({ children }) {
                     id: uniqueKey,
                     type: 'newMessage',
                     sceneId: sceneId,
-                    message: `New message in ${message.sceneId} since your last visit.`,
                     timestamp: message.timestamp,
                   };
                   setNotifications((prev) => [...prev, notification]);
@@ -175,6 +183,7 @@ export function CtxProvider({ children }) {
         notifications,
         setSceneId,
         deleteNotification,
+        saveNotification,
       }}
     >
       {children}

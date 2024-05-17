@@ -10,16 +10,13 @@ import { useCtx } from '@/context/Context';
 import { getUnixTime } from 'date-fns';
 
 function LeftSideBar({ children }) {
-  const { userData, scenes, notifications } = useCtx();
+  const { userData, scenes, notifications, saveNotification } = useCtx();
   const [submenuOpen, setSubmenuOpen] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
   async function logout() {
-    const userRef = doc(db, 'users', userData?.email);
-    await updateDoc(userRef, {
-      lastLogout: getUnixTime(new Date()),
-    });
+    saveNotification();
     await signOut(auth);
     const response = await fetch('/api/signout', {
       method: 'POST',
@@ -142,7 +139,7 @@ function LeftSideBar({ children }) {
                     </svg>
                   </span>
                 )}
-                <span className='text-lg font-medium px-1 flex-row'>
+                <span className='text-lg font-medium px-1 flex-row cursor-pointer'>
                   Értesítések
                   {notifications.length > 0 && (
                     <span className='animate-ping relative block left-24 bottom-6  h-1 w-1 rounded-full ring-2 ring-blue-400 bg-blue-600' />

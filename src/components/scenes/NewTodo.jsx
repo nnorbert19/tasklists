@@ -98,7 +98,7 @@ function NewTodo({ scene, user }) {
               ></textarea>
             </div>
             <SearchComponent
-              selectedUser={selectedUser}
+              selectedUser={selectedUser ? [selectedUser] : null}
               setUsers={setSelectedUser}
               onlyOne
               filterFrom={scene?.users}
