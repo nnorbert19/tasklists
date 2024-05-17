@@ -61,6 +61,8 @@ export function CtxProvider({ children }) {
       }
     });
     return () => {
+      setUserData(null);
+      setScenes(null);
       unsubscribe();
     };
   }, []);

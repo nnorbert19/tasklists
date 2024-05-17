@@ -287,7 +287,7 @@ function LeftSideBar({ children }) {
                             }}
                             href={`/szinterek/${scene?.id}`}
                           >
-                            <p className='content-center place-items-center truncate max-w-10'>
+                            <p className='content-center place-items-center truncate max-w-28'>
                               {scene?.name}
                             </p>
                           </Link>
